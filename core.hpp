@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-typedef void (gameModeFunc)();
 
 class OMPRSCore {
 private:
