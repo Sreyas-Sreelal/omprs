@@ -1,7 +1,8 @@
 #pragma once
 
 template <class T>
-class Singleton {
+class Singleton
+{
 protected:
 	static T* m_Instance;
 
@@ -22,7 +23,8 @@ public:
 
 	inline static void Destroy()
 	{
-		if (m_Instance != nullptr) {
+		if (m_Instance != nullptr)
+		{
 			delete m_Instance;
 			m_Instance = nullptr;
 		}

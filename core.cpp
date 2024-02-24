@@ -1,12 +1,12 @@
 #include "core.hpp"
 #if _WIN32
-#include<Windows.h>
+#include <Windows.h>
 #else
 #include <dlfcn.h>
 #endif
 
-
-OMPRSCore::OMPRSCore(const std::string& gamemode_name) {
+OMPRSCore::OMPRSCore(const std::string& gamemode_name)
+{
 #if _WIN32
 	proc_handle = LoadLibrary(("omprsgamemode\\" + gamemode_name + ".dll").c_str());
 #else

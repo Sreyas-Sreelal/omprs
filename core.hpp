@@ -1,29 +1,31 @@
 #pragma once
 #include <string>
 
-class OMPRSCore {
+class OMPRSCore
+{
 private:
 	void* proc_handle;
+
 public:
 	OMPRSCore(const std::string& gamemode_name);
 
-	template<typename F, typename... Args>
+	template <typename F, typename... Args>
 	void execute_callback(char* symbol);
-
 };
 
-template<typename callback_signature, typename... Args>
-void OMPRSCore::execute_callback(char* symbol) {
-	if (this->proc_handle != 0) {
+template <typename callback_signature, typename... Args>
+void OMPRSCore::execute_callback(char* symbol)
+{
+	if (this->proc_handle != 0)
+	{
 #if _WIN32
 		callback_signature* cb = (callback_signature*)GetProcAddress((HMODULE)this->proc_handle, symbol);
 #else
 		callback_signature* cb = (callback_signature*)dlsym(this->proc_handle, symbol);
 #endif
-		if (cb != 0) {
+		if (cb != 0)
+		{
 			(*cb)(std::forward<Args>(args)...);
 		}
 	}
-
 }
-

@@ -1,3 +1,3 @@
 #pragma once
 
-typedef void (OnGameModeInit)();
+typedef void(OnGameModeInit)();

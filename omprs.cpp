@@ -1,10 +1,10 @@
 #include "omprs.hpp"
 #include "types.hpp"
 
-StringView OMPRSComponent::componentName() const {
+StringView OMPRSComponent::componentName() const
+{
 	return "OMPRS";
 }
-
 
 SemanticVersion OMPRSComponent::componentVersion() const
 {
@@ -13,17 +13,18 @@ SemanticVersion OMPRSComponent::componentVersion() const
 
 void OMPRSComponent::onFree(IComponent* component)
 {
-
 }
 
-void OMPRSComponent::onLoad(ICore* c) {
+void OMPRSComponent::onLoad(ICore* c)
+{
 	core_ = c;
 	players = &core_->getPlayers();
 
 	core_->printLn("OMPRS loaded sucessfully!");
 }
 
-void OMPRSComponent::onReady() {
+void OMPRSComponent::onReady()
+{
 	auto gm_symbol = core_->getConfig().getString("omprs.gamemode");
 	omprs_core = new OMPRSCore(gm_symbol.to_string());
 	omprs_core->execute_callback<OnGameModeInit>("OnGameModeInit");
@@ -38,10 +39,13 @@ void OMPRSComponent::reset()
 {
 }
 
-void OMPRSComponent::onInit(IComponentList* components) {
+void OMPRSComponent::onInit(IComponentList* components)
+{
 	componentList = componentList;
 }
-void OMPRSComponent::print(const char* text) {
+
+void OMPRSComponent::print(const char* text)
+{
 	core_->printLn(text);
 }
 
@@ -50,18 +54,16 @@ ICore* OMPRSComponent::GetCore()
 	return core_;
 }
 
-
 IPlayerPool* OMPRSComponent::GetPlayers()
 {
 	return players;
 }
 
-template<typename ComponentType>
+template <typename ComponentType>
 ComponentType* OMPRSComponent::GetComponent()
 {
 	return componentList->queryComponent<ComponentType>();
 }
-
 
 IPickupsComponent* OMPRSComponent::GetPickups()
 {
@@ -72,7 +74,6 @@ IObjectsComponent* OMPRSComponent::GetObjects()
 {
 	return objects;
 }
-
 
 IVehiclesComponent* OMPRSComponent::GetVehicles()
 {
