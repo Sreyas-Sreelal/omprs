@@ -1,5 +1,6 @@
 #include "omprs.hpp"
 #include "types.hpp"
+#include "callbacks/players.hpp"
 
 StringView OMPRSComponent::componentName() const
 {
@@ -21,6 +22,8 @@ void OMPRSComponent::onLoad(ICore* c)
 	players = &core_->getPlayers();
 
 	core_->printLn("OMPRS loaded sucessfully!");
+
+	core_->getPlayers().getPlayerConnectDispatcher().addEventHandler(PlayerEvents::Get());
 }
 
 void OMPRSComponent::onReady()
@@ -88,4 +91,9 @@ ITextLabelsComponent* OMPRSComponent::GetTextLabels()
 IActorsComponent* OMPRSComponent::GetActors()
 {
 	return actors;
+}
+
+OMPRSCore* OMPRSComponent::GetOMPRSCore()
+{
+	return omprs_core;
 }

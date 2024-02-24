@@ -62,6 +62,8 @@ public:
 
 	IActorsComponent* GetActors();
 
+	OMPRSCore* GetOMPRSCore();
+
 	inline IPlayer* GetPlayer(int playerid)
 	{
 		if (players == nullptr)
