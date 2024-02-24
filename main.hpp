@@ -2,5 +2,6 @@
 
 #include <sdk.hpp>
 #include "omprs.hpp"
-#include "api/utils.hpp"
-#include "api/players.hpp"
+#include "functions/utils.hpp"
+#include "functions/players.hpp"
+#include "callbacks/players.hpp"

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "api.hpp"
+#include "../api.hpp"
 
 OMPRS_API int OMPRS_SendClientMessage(int playerid, int colour, const char* message)
 {
