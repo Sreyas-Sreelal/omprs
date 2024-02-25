@@ -8,3 +8,15 @@ OMPRS_API int OMPRS_SendClientMessage(int playerid, int colour, const char* mess
 	player->sendClientMessage(Colour::FromRGBA(colour), message);
 	return 1;
 }
+
+OMPRS_API int OMPRS_GetPlayerName(int playerid, char* name)
+{
+	GET_PLAYER_CHECKED(player, playerid, 0);
+	
+	auto out = player->getName();
+	auto length = out.length();
+
+	out.copy(name, length);
+	
+	return out.length();
+}
