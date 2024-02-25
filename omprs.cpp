@@ -30,7 +30,7 @@ void OMPRSComponent::onReady()
 {
 	auto gm_symbol = core_->getConfig().getString("omprs.gamemode");
 	omprs_core = new OMPRSCore(gm_symbol.to_string());
-	omprs_core->execute_callback<OnGameModeInit>("OnGameModeInit");
+	omprs_core->execute_callback<OnGameModeInit>("OMPRS_Main");
 }
 
 void OMPRSComponent::free()
