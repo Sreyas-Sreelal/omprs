@@ -93,6 +93,11 @@ IActorsComponent* OMPRSComponent::GetActors()
 	return actors;
 }
 
+ICustomModelsComponent* OMPRSComponent::GetCustomModels()
+{
+	return custommodels;
+}
+
 OMPRSCore* OMPRSComponent::GetOMPRSCore()
 {
 	return omprs_core;

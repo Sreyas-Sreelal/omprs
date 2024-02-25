@@ -8,6 +8,7 @@
 #include <Server/Components/TextLabels/textlabels.hpp>
 #include <Server/Components/Vehicles/vehicles.hpp>
 #include <Server/Components/Actors/actors.hpp>
+#include <Server/Components/CustomModels/custommodels.hpp>
 
 class OMPRSComponent : public IComponent, public Singleton<OMPRSComponent>
 {
@@ -20,6 +21,8 @@ private:
 	ITextLabelsComponent* textlabels = nullptr;
 	IVehiclesComponent* vehicles = nullptr;
 	IActorsComponent* actors = nullptr;
+	ICustomModelsComponent* custommodels = nullptr;
+
 	OMPRSCore* omprs_core = nullptr;
 
 public:
@@ -61,6 +64,8 @@ public:
 	ITextLabelsComponent* GetTextLabels();
 
 	IActorsComponent* GetActors();
+
+	ICustomModelsComponent* GetCustomModels();
 
 	OMPRSCore* GetOMPRSCore();
 
