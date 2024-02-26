@@ -18,5 +18,5 @@ OMPRS_API int OMPRS_GetPlayerName(int playerid, char* name)
 
 	out.copy(name, length);
 	
-	return out.length();
+	return length;
 }
