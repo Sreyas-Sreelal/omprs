@@ -1,5 +1,9 @@
 #pragma once
-
+#if _WIN32
+#include <Windows.h>
+#else
+#include <dlfcn.h>
+#endif
 #include <string>
 
 class OMPRSCore
@@ -11,11 +15,11 @@ public:
 	OMPRSCore(const std::string& gamemode_name);
 
 	template <typename F, typename... Args>
-	void execute_callback(char* symbol, Args... args);
+	void execute_callback(const char* symbol, Args... args);
 };
 
 template <typename callback_signature, typename... Args>
-void OMPRSCore::execute_callback(char* symbol, Args... args)
+void OMPRSCore::execute_callback(const char* symbol, Args... args)
 {
 	if (this->proc_handle != 0)
 	{
