@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../omprs.hpp"
+#include "omprs.hpp"
 
 #ifdef _WIN32
 #define OMPRS_API extern "C" __declspec(dllexport)
