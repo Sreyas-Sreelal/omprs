@@ -44,12 +44,12 @@ void OMPRSComponent::reset()
 
 void OMPRSComponent::onInit(IComponentList* components)
 {
-	componentList = componentList;
+	componentList = components;
 }
 
 void OMPRSComponent::print(const char* text)
 {
-	core_->printLn(text);
+	core_->printLn("%s",text);
 }
 
 ICore* OMPRSComponent::GetCore()
