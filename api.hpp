@@ -5,7 +5,7 @@
 #ifdef _WIN32
 #define OMPRS_API extern "C" __declspec(dllexport)
 #else
-#define OMPRS_API
+#define OMPRS_API extern "C"
 #endif
 
 // most of these macros are extracted from open.mp gdk with some obvious modifications
