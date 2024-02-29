@@ -42,12 +42,12 @@ OMPRS_API int OMPRS_GetPlayerCustomSkin(int playerid)
 {
 	GET_PLAYER_CHECKED(player, playerid, 0);
 	IPlayerCustomModelsData* data = queryExtension<IPlayerCustomModelsData>(player);
-	
+
 	if (!data)
 	{
 		return 0;
 	}
-	
+
 	return data->getCustomSkin();
 }
 
@@ -86,7 +86,7 @@ OMPRS_API bool OMPRS_FindModelFileNameFromCRC(int crc, char* output)
 	return length;
 }
 
-OMPRS_API bool FindTextureFileNameFromCRC(int crc, char* output)
+OMPRS_API bool OMPRS_FindTextureFileNameFromCRC(int crc, char* output)
 {
 	return OMPRS_FindModelFileNameFromCRC(crc, output);
 }
@@ -103,7 +103,7 @@ OMPRS_API bool IsValidCustomModel(int modelid)
 	return models->isValidCustomModel(modelid);
 }
 
-OMPRS_API bool GetCustomModelPath(int modelid, char* dffPath, char* txdPath)
+OMPRS_API bool OMPRS_GetCustomModelPath(int modelid, char* dffPath, char* txdPath)
 {
 	auto models = OMPRSComponent::Get()->GetCustomModels();
 
