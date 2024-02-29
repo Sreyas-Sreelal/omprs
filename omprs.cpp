@@ -1,6 +1,7 @@
 #include "omprs.hpp"
 #include "types.hpp"
 #include "callbacks/players.hpp"
+#include "callbacks/models.hpp"
 
 StringView OMPRSComponent::componentName() const
 {
@@ -19,11 +20,7 @@ void OMPRSComponent::onFree(IComponent* component)
 void OMPRSComponent::onLoad(ICore* c)
 {
 	core_ = c;
-	players = &core_->getPlayers();
-
 	core_->printLn("OMPRS loaded sucessfully!");
-
-	core_->getPlayers().getPlayerConnectDispatcher().addEventHandler(PlayerEvents::Get());
 }
 
 void OMPRSComponent::onReady()
@@ -45,11 +42,23 @@ void OMPRSComponent::reset()
 void OMPRSComponent::onInit(IComponentList* components)
 {
 	componentList = components;
+	players = &core_->getPlayers();
+	custommodels = componentList->queryComponent<ICustomModelsComponent>();
+
+	if (players)
+	{
+		players->getPlayerConnectDispatcher().addEventHandler(PlayerEvents::Get());
+	}
+
+	if (custommodels)
+	{
+		custommodels->getEventDispatcher().addEventHandler(ModelEvents::Get());
+	}
 }
 
 void OMPRSComponent::print(const char* text)
 {
-	core_->printLn("%s",text);
+	core_->printLn("%s", text);
 }
 
 ICore* OMPRSComponent::GetCore()
