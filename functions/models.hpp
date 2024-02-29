@@ -85,3 +85,40 @@ OMPRS_API bool OMPRS_FindModelFileNameFromCRC(int crc, char* output)
 
 	return length;
 }
+
+OMPRS_API bool FindTextureFileNameFromCRC(int crc, char* output)
+{
+	return OMPRS_FindModelFileNameFromCRC(crc, output);
+}
+
+OMPRS_API bool IsValidCustomModel(int modelid)
+{
+	auto models = OMPRSComponent::Get()->GetCustomModels();
+
+	if (!models)
+	{
+		return false;
+	}
+
+	return models->isValidCustomModel(modelid);
+}
+
+OMPRS_API bool GetCustomModelPath(int modelid, char* dffPath, char* txdPath)
+{
+	auto models = OMPRSComponent::Get()->GetCustomModels();
+
+	if (!models)
+	{
+		return false;
+	}
+
+	StringView dffPathSV {};
+	StringView txdPathSV {};
+
+	auto status = models->getCustomModelPath(modelid, dffPathSV, txdPathSV);
+
+	dffPathSV.copy(dffPath, dffPathSV.length());
+	txdPathSV.copy(txdPath, txdPathSV.length());
+
+	return status;
+}
