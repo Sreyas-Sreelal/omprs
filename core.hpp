@@ -11,11 +11,16 @@ class OMPRSCore
 private:
 	void* proc_handle;
 
+#ifdef __unix__
+	void* component_handle;
+#endif
+
 public:
 	OMPRSCore(const std::string& gamemode_name);
 
 	template <typename F, typename... Args>
 	void execute_callback(const char* symbol, Args... args);
+	~OMPRSCore();
 };
 
 template <typename callback_signature, typename... Args>
