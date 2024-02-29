@@ -91,7 +91,7 @@ OMPRS_API bool OMPRS_FindTextureFileNameFromCRC(int crc, char* output)
 	return OMPRS_FindModelFileNameFromCRC(crc, output);
 }
 
-OMPRS_API bool IsValidCustomModel(int modelid)
+OMPRS_API bool OMPRS_IsValidCustomModel(int modelid)
 {
 	auto models = OMPRSComponent::Get()->GetCustomModels();
 
