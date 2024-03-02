@@ -25,9 +25,8 @@ void OMPRSComponent::onLoad(ICore* c)
 
 void OMPRSComponent::onReady()
 {
-	auto gm_symbol = core_->getConfig().getString("omprs.gamemode");
-	omprs_core = new OMPRSCore(gm_symbol.to_string());
-	omprs_core->execute_callback<OnGameModeInit>("OMPRS_Main");
+	OnGameModeInit* entry_func = (OnGameModeInit*)omprs_core->get_callback_addr("OMPRS_Main");
+	(*entry_func)();
 }
 
 void OMPRSComponent::free()
@@ -41,6 +40,8 @@ void OMPRSComponent::reset()
 
 void OMPRSComponent::onInit(IComponentList* components)
 {
+	auto gm_symbol = core_->getConfig().getString("omprs.gamemode");
+	omprs_core = new OMPRSCore(gm_symbol.to_string());
 	componentList = components;
 	players = &core_->getPlayers();
 	custommodels = componentList->queryComponent<ICustomModelsComponent>();

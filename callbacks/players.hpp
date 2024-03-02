@@ -2,13 +2,28 @@
 
 #include "../api.hpp"
 
-typedef bool(OnPlayerConnect)(int);
+typedef bool(FuncOnPlayerConnect)(int);
 
 class PlayerEvents : public PlayerConnectEventHandler, public Singleton<PlayerEvents>
 {
+private:
+	FuncOnPlayerConnect* funcOnPlayerConnect = nullptr;
+
 public:
+	PlayerEvents()
+	{
+		auto poop = OMPRSComponent::Get()->GetOMPRSCore()->get_callback_addr("OnPlayerConnect");
+		
+		if (poop != nullptr)
+		{
+			funcOnPlayerConnect = (FuncOnPlayerConnect*)poop;
+		}
+	}
 	void onPlayerConnect(IPlayer& player) override
 	{
-		OMPRSComponent::Get()->GetOMPRSCore()->execute_callback<OnPlayerConnect, int>("OnPlayerConnect", player.getID());
+		if (funcOnPlayerConnect != nullptr)
+		{
+			(*funcOnPlayerConnect)(player.getID());
+		}
 	}
 };

@@ -18,3 +18,16 @@ OMPRSCore::~OMPRSCore()
 	dlclose(component_handle);
 #endif
 }
+
+void* OMPRSCore::get_callback_addr(const char* symbol)
+{
+	if (this->proc_handle != 0)
+	{
+#if _WIN32
+		return GetProcAddress((HMODULE)this->proc_handle, symbol);
+#else
+		return dlsym(this->proc_handle, symbol);
+#endif
+	}
+	return nullptr;
+}
