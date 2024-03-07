@@ -3,9 +3,9 @@
 #include "omprs.hpp"
 
 #ifdef _WIN32
-#define OMPRS_API extern "C" __declspec(dllexport)
+#define OMPRS_API(RET_TYPE, FUNC) extern "C" __declspec(dllexport) RET_TYPE OMPRS_##FUNC
 #else
-#define OMPRS_API extern "C"
+#define OMPRS_API(RET_TYPE, FUNC) extern "C" RET_TYPE OMPRS_##FUNC
 #endif
 
 // most of these macros are extracted from open.mp gdk with some obvious modifications
