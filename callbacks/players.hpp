@@ -12,13 +12,9 @@ private:
 public:
 	PlayerEvents()
 	{
-		auto poop = OMPRSComponent::Get()->GetOMPRSCore()->get_callback_addr("OnPlayerConnect");
-		
-		if (poop != nullptr)
-		{
-			funcOnPlayerConnect = (FuncOnPlayerConnect*)poop;
-		}
+		funcOnPlayerConnect = (FuncOnPlayerConnect*)OMPRSComponent::Get()->GetOMPRSCore()->get_callback_addr("OnPlayerConnect");
 	}
+
 	void onPlayerConnect(IPlayer& player) override
 	{
 		if (funcOnPlayerConnect != nullptr)
