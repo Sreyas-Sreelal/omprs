@@ -20,23 +20,21 @@ public:
 	}
 	void onPlayerFinishedDownloading(IPlayer& player) override
 	{
-		auto omprs_core = OMPRSComponent::Get()->GetOMPRSCore();
-		auto playerid = player.getID();
-		auto virtualworld = player.getVirtualWorld();
-		
 		if (funcOnPlayerFinishedDownloading != nullptr)
 		{
+			auto omprs_core = OMPRSComponent::Get()->GetOMPRSCore();
+			auto playerid = player.getID();
+			auto virtualworld = player.getVirtualWorld();
 			(*funcOnPlayerFinishedDownloading)(playerid, virtualworld);
 		}
 		
 	}
 	bool onPlayerRequestDownload(IPlayer& player, ModelDownloadType type, uint32_t checksum) override
 	{
-		auto omprs_core = OMPRSComponent::Get()->GetOMPRSCore();
-		auto playerid = player.getID();
-		
 		if (funcOnPlayerRequestDownload != nullptr)
 		{
+			auto omprs_core = OMPRSComponent::Get()->GetOMPRSCore();
+			auto playerid = player.getID();
 			(*funcOnPlayerRequestDownload)(playerid, static_cast<int>(type), checksum);
 		}
 		
