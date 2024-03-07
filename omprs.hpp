@@ -9,6 +9,8 @@
 #include <Server/Components/Vehicles/vehicles.hpp>
 #include <Server/Components/Actors/actors.hpp>
 #include <Server/Components/CustomModels/custommodels.hpp>
+#include <Server/Components/TextDraws/textdraws.hpp>
+#include <Server/Components/Console/console.hpp>
 
 class OMPRSComponent : public IComponent, public Singleton<OMPRSComponent>
 {
