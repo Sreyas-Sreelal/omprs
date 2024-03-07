@@ -28,3 +28,8 @@
 	entity_type* entity_output = OMPRSComponent::Get()->GetEntity<entity_type>(entity_id); \
 	if (entity_output == nullptr)                                                          \
 		return fail_ret;
+
+#define GET_VEHICLE_CHECKED(vehicle_output, vehicleid, fail_ret)            \
+	IVehicle* vehicle_output = OMPRSComponent::Get()->GetEntity<IVehicle>(vehicleid); \
+	if (vehicle_output == nullptr)                                        \
+		return fail_ret;
