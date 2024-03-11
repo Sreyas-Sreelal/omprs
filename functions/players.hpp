@@ -446,10 +446,11 @@ OMPRS_API(bool, PlayerPlaySound(int playerid, uint32_t sound, float x, float y, 
 	return true;
 }
 
-OMPRS_API(bool, PlayerSpectatePlayer(int playerid, IPlayer& target, int mode))
+OMPRS_API(bool, PlayerSpectatePlayer(int playerid, int targetid, int mode))
 {
 	GET_PLAYER_CHECKED(player, playerid, false);
-	player->spectatePlayer(target, PlayerSpectateMode(mode));
+	GET_PLAYER_CHECKED(target, targetid, false);
+	player->spectatePlayer(*target, PlayerSpectateMode(mode));
 	return true;
 }
 
@@ -614,10 +615,10 @@ OMPRS_API(bool, RemovePlayerMapIcon(int playerid, int iconID))
 	return true;
 }
 
-OMPRS_API(bool, SetPlayerMapIcon(int playerid, int iconID, Vector3 pos, int type, uint32_t colour, int style))
+OMPRS_API(bool, SetPlayerMapIcon(int playerid, int iconID, float x,float y,float z, int type, uint32_t colour, int style))
 {
 	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setMapIcon(iconID, pos, type, Colour::FromRGBA(colour), MapIconStyle(style));
+	player->setMapIcon(iconID, Vector3(x,y,z), type, Colour::FromRGBA(colour), MapIconStyle(style));
 	return true;
 }
 
@@ -754,11 +755,11 @@ OMPRS_API(int, GetPlayerAnimationIndex(int playerid))
 	return player->getAnimationData().ID;
 }
 
-OMPRS_API(bool, GetPlayerFacingAngle(int playerid, float& angle))
+OMPRS_API(bool, GetPlayerFacingAngle(int playerid, float* angle))
 {
 	GET_PLAYER_CHECKED(player, playerid, false);
 	GTAQuat quat = player->getRotation();
-	angle = quat.ToEuler().z;
+	*angle = quat.ToEuler().z;
 	return true;
 }
 
