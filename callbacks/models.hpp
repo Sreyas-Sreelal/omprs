@@ -2,9 +2,6 @@
 
 #include "../api.hpp"
 
-typedef void(FuncOnPlayerFinishedDownloading)(int, int);
-typedef bool(FuncOnPlayerRequestDownload)(int, int, int);
-
 struct ModelEvents : public PlayerModelsEventHandler, public Singleton<ModelEvents>
 {
 private:
