@@ -14,18 +14,15 @@ public:
 		INIT_CALLBACK(OnPlayerFinishedDownloading);
 		INIT_CALLBACK(OnPlayerRequestDownload);
 	}
+	
 	void onPlayerFinishedDownloading(IPlayer& player) override
 	{
-		auto omprs_core = OMPRSComponent::Get()->GetOMPRSCore();
-		auto playerid = player.getID();
-		auto virtualworld = player.getVirtualWorld();
-		EXEC_CALLBACK(OnPlayerFinishedDownloading, playerid, virtualworld);
+		EXEC_CALLBACK(OnPlayerFinishedDownloading, player.getID(), player.getVirtualWorld());
 	}
+
 	bool onPlayerRequestDownload(IPlayer& player, ModelDownloadType type, uint32_t checksum) override
 	{
-		auto omprs_core = OMPRSComponent::Get()->GetOMPRSCore();
-		auto playerid = player.getID();
-		EXEC_CALLBACK(OnPlayerRequestDownload, playerid, static_cast<int>(type), checksum);
+		EXEC_CALLBACK(OnPlayerRequestDownload, player.getID(), static_cast<int>(type), checksum);
 		return true;
 	}
 };
