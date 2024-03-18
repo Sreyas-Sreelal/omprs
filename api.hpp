@@ -34,8 +34,8 @@
 	if (vehicle_output == nullptr)                                                    \
 		return fail_ret;
 
-#define CALLBACK_DECL(name, ...)           \
-	typedef bool(Func##name)(__VA_ARGS__); \
+#define CALLBACK_DECL(ret,name, ...)           \
+	typedef ret(Func##name)(__VA_ARGS__); \
 	Func##name* func##name = nullptr
 
 #define INIT_CALLBACK(name) \
@@ -44,5 +44,5 @@
 #define EXEC_CALLBACK(name, ...)    \
 	if (func##name != nullptr)      \
 	{                               \
-		(*func##name)(__VA_ARGS__); \
+		return (*func##name)(__VA_ARGS__); \
 	}

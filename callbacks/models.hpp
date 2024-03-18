@@ -5,8 +5,8 @@
 struct ModelEvents : public PlayerModelsEventHandler, public Singleton<ModelEvents>
 {
 private:
-	CALLBACK_DECL(OnPlayerFinishedDownloading, int, int);
-	CALLBACK_DECL(OnPlayerRequestDownload, int, int, int);
+	CALLBACK_DECL(void,OnPlayerFinishedDownloading, int, int);
+	CALLBACK_DECL(bool,OnPlayerRequestDownload, int, int, int);
 
 public:
 	ModelEvents()
