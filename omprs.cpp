@@ -25,7 +25,7 @@ void OMPRSComponent::onLoad(ICore* c)
 
 void OMPRSComponent::onReady()
 {
-	OnGameModeInit* entry_func = (OnGameModeInit*)omprs_core->get_callback_addr("OMPRS_Main");
+	OnGameModeInit* entry_func = (OnGameModeInit*)omprs_core->get_callback_addr("Main");
 	(*entry_func)();
 }
 

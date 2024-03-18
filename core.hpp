@@ -18,7 +18,7 @@ private:
 public:
 	OMPRSCore(const std::string& gamemode_name);
 
-	void* get_callback_addr(const char* symbol);
+	void* get_callback_addr(std::string);
 	~OMPRSCore();
 };
 

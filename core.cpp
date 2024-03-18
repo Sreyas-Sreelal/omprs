@@ -19,14 +19,14 @@ OMPRSCore::~OMPRSCore()
 #endif
 }
 
-void* OMPRSCore::get_callback_addr(const char* symbol)
+void* OMPRSCore::get_callback_addr(std::string symbol)
 {
 	if (this->proc_handle != 0)
 	{
 #if _WIN32
-		return GetProcAddress((HMODULE)this->proc_handle, symbol);
+		return GetProcAddress((HMODULE)this->proc_handle, ("OMPRS_" + symbol).c_str());
 #else
-		return dlsym(this->proc_handle, symbol);
+		return dlsym(this->proc_handle, ("OMPRS_" + symbol).c_str());
 #endif
 	}
 	return nullptr;
