@@ -57,6 +57,7 @@ void OMPRSComponent::onInit(IComponentList* components)
 		players->getPlayerDamageDispatcher().addEventHandler(PlayerEvents::Get());
 		players->getPlayerClickDispatcher().addEventHandler(PlayerEvents::Get());
 		players->getPlayerCheckDispatcher().addEventHandler(PlayerEvents::Get());
+		players->getPlayerUpdateDispatcher().addEventHandler(PlayerEvents::Get());
 	}
 
 	if (custommodels)
