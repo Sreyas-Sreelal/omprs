@@ -2,24 +2,26 @@
 
 #include "../api.hpp"
 
-typedef bool(FuncOnPlayerConnect)(int);
-
 class PlayerEvents : public PlayerConnectEventHandler, public Singleton<PlayerEvents>
 {
 private:
-	FuncOnPlayerConnect* funcOnPlayerConnect = nullptr;
+	CALLBACK_DECL(OnPlayerConnect, int);
+	CALLBACK_DECL(OnIncomingConnection, int, const char*, int);
 
 public:
 	PlayerEvents()
 	{
-		funcOnPlayerConnect = (FuncOnPlayerConnect*)OMPRSComponent::Get()->GetOMPRSCore()->get_callback_addr("OnPlayerConnect");
+		INIT_CALLBACK(OnPlayerConnect);
+		INIT_CALLBACK(OnIncomingConnection);
 	}
 
 	void onPlayerConnect(IPlayer& player) override
 	{
-		if (funcOnPlayerConnect != nullptr)
-		{
-			(*funcOnPlayerConnect)(player.getID());
-		}
+		EXEC_CALLBACK(OnPlayerConnect, player.getID());
+	}
+
+	void onIncomingConnection(IPlayer& player, StringView ipAddress, unsigned short port)
+	{
+		EXEC_CALLBACK(OnIncomingConnection, player.getID(), ipAddress.to_string().c_str(), port);
 	}
 };

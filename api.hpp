@@ -29,7 +29,20 @@
 	if (entity_output == nullptr)                                                          \
 		return fail_ret;
 
-#define GET_VEHICLE_CHECKED(vehicle_output, vehicleid, fail_ret)            \
+#define GET_VEHICLE_CHECKED(vehicle_output, vehicleid, fail_ret)                      \
 	IVehicle* vehicle_output = OMPRSComponent::Get()->GetEntity<IVehicle>(vehicleid); \
-	if (vehicle_output == nullptr)                                        \
+	if (vehicle_output == nullptr)                                                    \
 		return fail_ret;
+
+#define CALLBACK_DECL(name, ...)           \
+	typedef bool(Func##name)(__VA_ARGS__); \
+	Func##name* func##name = nullptr
+
+#define INIT_CALLBACK(name) \
+	func##name = (Func##name*)OMPRSComponent::Get()->GetOMPRSCore()->get_callback_addr(#name)
+
+#define EXEC_CALLBACK(name, ...)    \
+	if (func##name != nullptr)      \
+	{                               \
+		(*func##name)(__VA_ARGS__); \
+	}
