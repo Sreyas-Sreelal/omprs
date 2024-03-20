@@ -45,6 +45,7 @@ void OMPRSComponent::onInit(IComponentList* components)
 	componentList = components;
 	players = &core_->getPlayers();
 	custommodels = componentList->queryComponent<ICustomModelsComponent>();
+	actors = componentList->queryComponent<IActorsComponent>();
 
 	if (players)
 	{

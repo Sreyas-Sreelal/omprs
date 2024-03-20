@@ -167,4 +167,13 @@ public:
 
 		return objects->get(entity_id);
 	}
+
+	inline IActor* GetActor(int actorid)
+	{
+		if (actors == nullptr)
+		{
+			return nullptr;
+		}
+		return actors->get(actorid);
+	}
 };
