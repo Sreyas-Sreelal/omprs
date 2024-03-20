@@ -59,7 +59,7 @@ OMPRS_API(int, GetActorVirtualWorld(int actorid))
 	return 0;
 }
 
-OMPRS_API(bool, ApplyActorAnimation(int actorid, const char* animationLibrary, const char* animationName, float delta, bool loop, bool lockX, bool lockY, bool freeze, int time))
+OMPRS_API(bool, ApplyActorAnimation(int actorid, StringView animationLibrary, StringView animationName, float delta, bool loop, bool lockX, bool lockY, bool freeze, int time))
 {
 	auto actor = OMPRSComponent::Get()->GetActor(actorid);
 	if (actor)
@@ -199,15 +199,15 @@ OMPRS_API(int, GetActorSkin(int actorid))
 	return -1;
 }
 
-OMPRS_API(bool, GetActorAnimation(int actorid, char* animationLibrary, char* animationName,  float* delta, bool* loop, bool* lockX, bool* lockY, bool* freeze, unsigned int* time))
+OMPRS_API(bool, GetActorAnimation(int actorid, StringView* animationLibrary, StringView* animationName,  float* delta, bool* loop, bool* lockX, bool* lockY, bool* freeze, unsigned int* time))
 {
 	auto actor = OMPRSComponent::Get()->GetActor(actorid);
 	if (actor)
 	{
 		const AnimationData& anim = actor->getAnimation();
 		OMPRSComponent::Get()->GetCore()->printLn("name is %s lib is %s", anim.name.data(), anim.lib.data());
-		StringView(anim.lib.data()).copy(animationLibrary, anim.lib.length());
-		StringView(anim.name.data()).copy(animationName, anim.name.length());
+		*animationLibrary= anim.lib;
+		*animationName= anim.name;
 		*delta = anim.delta;
 		*loop = anim.loop;
 		*lockX = anim.lockX;

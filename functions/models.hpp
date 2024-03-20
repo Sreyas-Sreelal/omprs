@@ -2,7 +2,7 @@
 
 #include "../api.hpp"
 
-OMPRS_API(bool, AddCharModel(int baseid, int newid, const char* dffname, const char* txdname))
+OMPRS_API(bool, AddCharModel(int baseid, int newid, StringView dffname, StringView txdname))
 {
 	auto models = OMPRSComponent::Get()->GetCustomModels();
 
@@ -14,7 +14,7 @@ OMPRS_API(bool, AddCharModel(int baseid, int newid, const char* dffname, const c
 	return models->addCustomModel(ModelType::Skin, newid, baseid, dffname, txdname);
 }
 
-OMPRS_API(bool, AddSimpleModel(int virtualworld, int baseid, int newid, const char* dffname, const char* txdname))
+OMPRS_API(bool, AddSimpleModel(int virtualworld, int baseid, int newid, StringView dffname, StringView txdname))
 {
 	auto models = OMPRSComponent::Get()->GetCustomModels();
 
@@ -26,7 +26,7 @@ OMPRS_API(bool, AddSimpleModel(int virtualworld, int baseid, int newid, const ch
 	return OMPRSComponent::Get()->GetCustomModels()->addCustomModel(ModelType::Object, newid, baseid, dffname, txdname, virtualworld);
 }
 
-OMPRS_API(bool, AddSimpleModelTimed(int virtualworld, int baseid, int newid, const char* dffname, const char* txdname, int timeon, int timeoff))
+OMPRS_API(bool, AddSimpleModelTimed(int virtualworld, int baseid, int newid, StringView dffname, StringView txdname, int timeon, int timeoff))
 {
 	auto models = OMPRSComponent::Get()->GetCustomModels();
 
@@ -70,7 +70,7 @@ OMPRS_API(bool, RedirectDownload(int playerid, char const* url))
 	return true;
 }
 
-OMPRS_API(bool, FindModelFileNameFromCRC(int crc, char* output))
+OMPRS_API(bool, FindModelFileNameFromCRC(int crc, StringView* output))
 {
 	auto models = OMPRSComponent::Get()->GetCustomModels();
 
@@ -81,12 +81,12 @@ OMPRS_API(bool, FindModelFileNameFromCRC(int crc, char* output))
 
 	auto out = models->getModelNameFromChecksum(crc);
 	auto length = out.length();
-	out.copy(output, length);
+	*output = out;
 
 	return length;
 }
 
-OMPRS_API(bool, FindTextureFileNameFromCRC(int crc, char* output))
+OMPRS_API(bool, FindTextureFileNameFromCRC(int crc, StringView* output))
 {
 	return OMPRS_FindModelFileNameFromCRC(crc, output);
 }
@@ -103,7 +103,7 @@ OMPRS_API(bool, IsValidCustomModel(int modelid))
 	return models->isValidCustomModel(modelid);
 }
 
-OMPRS_API(bool, GetCustomModelPath(int modelid, char* dffPath, char* txdPath))
+OMPRS_API(bool, GetCustomModelPath(int modelid, StringView* dffPath, StringView* txdPath))
 {
 	auto models = OMPRSComponent::Get()->GetCustomModels();
 
@@ -117,8 +117,8 @@ OMPRS_API(bool, GetCustomModelPath(int modelid, char* dffPath, char* txdPath))
 
 	auto status = models->getCustomModelPath(modelid, dffPathSV, txdPathSV);
 
-	dffPathSV.copy(dffPath, dffPathSV.length());
-	txdPathSV.copy(txdPath, txdPathSV.length());
+	*dffPath = dffPathSV;
+	*txdPath = txdPathSV;
 
 	return status;
 }

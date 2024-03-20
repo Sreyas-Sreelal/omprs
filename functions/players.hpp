@@ -2,26 +2,22 @@
 
 #include "../api.hpp"
 
-OMPRS_API(bool, SendClientMessage(int playerid, int colour, const char* message))
+OMPRS_API(bool, SendClientMessage(int playerid, int colour, StringView message))
 {
 	GET_PLAYER_CHECKED(player, playerid, false);
 	player->sendClientMessage(Colour::FromRGBA(colour), message);
 	return true;
 }
 
-OMPRS_API(int, GetPlayerName(int playerid, char* name))
+OMPRS_API(int, GetPlayerName(int playerid, StringView* name))
 {
 	GET_PLAYER_CHECKED(player, playerid, 0);
-
-	auto out = player->getName();
-	auto length = out.length();
-
-	out.copy(name, length);
-
+	*name = player->getName();
+	auto length = player->getName().length();
 	return length;
 }
 
-OMPRS_API(bool, SendClientMessageToAll(int colour, const char* message))
+OMPRS_API(bool, SendClientMessageToAll(int colour, StringView message))
 {
 	OMPRSComponent::Get()->GetPlayers()->sendClientMessageToAll(Colour::FromRGBA(colour), message);
 	return true;
@@ -75,7 +71,7 @@ OMPRS_API(bool, SetPlayerSkin(int playerid, int skinid))
 	return true;
 }
 
-OMPRS_API(bool, SetPlayerShopName(int playerid, const char* shopname))
+OMPRS_API(bool, SetPlayerShopName(int playerid, StringView shopname))
 {
 	GET_PLAYER_CHECKED(player, playerid, false);
 	player->setShopName(shopname);
@@ -116,7 +112,7 @@ OMPRS_API(bool, CreateExplosion(float x, float y, float z, int type, float radiu
 	return true;
 }
 
-OMPRS_API(bool, PlayAudioStreamForPlayer(int playerid, const char* url, float x, float y, float z, float distance, bool usePos))
+OMPRS_API(bool, PlayAudioStreamForPlayer(int playerid, StringView url, float x, float y, float z, float distance, bool usePos))
 {
 	GET_PLAYER_CHECKED(player, playerid, false);
 	player->playAudio(url, usePos, Vector3(x, y, z), distance);
@@ -277,7 +273,7 @@ OMPRS_API(bool, ResetPlayerMoney(int playerid))
 	return true;
 }
 
-OMPRS_API(int, SetPlayerName(int playerid, const char* name))
+OMPRS_API(int, SetPlayerName(int playerid, StringView name))
 {
 	GET_PLAYER_CHECKED(player, playerid, 0);
 	EPlayerNameStatus status = player->setName(name);
@@ -699,7 +695,7 @@ OMPRS_API(bool, TogglePlayerSpectating(int playerid, bool enable))
 	return true;
 }
 
-OMPRS_API(bool, ApplyAnimation(int playerid, const char* animlib, const char* animname, float delta, bool loop, bool lockX, bool lockY, bool freeze, int time, int sync))
+OMPRS_API(bool, ApplyAnimation(int playerid, StringView animlib, StringView animname, float delta, bool loop, bool lockX, bool lockY, bool freeze, int time, int sync))
 {
 	GET_PLAYER_CHECKED(player, playerid, false);
 	const AnimationData animationData(delta, loop, lockX, lockY, freeze, time, animlib, animname);
@@ -707,11 +703,11 @@ OMPRS_API(bool, ApplyAnimation(int playerid, const char* animlib, const char* an
 	return true;
 }
 
-OMPRS_API(bool, GetAnimationName(int index, char* lib, char* name))
+OMPRS_API(bool, GetAnimationName(int index, StringView* lib, StringView* name))
 {
 	Pair<StringView, StringView> anim = splitAnimationNames(index);
-	anim.first.copy(lib, anim.first.length());
-	anim.second.copy(name, anim.second.length());
+	*lib = anim.first;
+	*name = anim.second;
 	return true;
 }
 
@@ -763,7 +759,7 @@ OMPRS_API(bool, GetPlayerFacingAngle(int playerid, float* angle))
 	return true;
 }
 
-OMPRS_API(int, GetPlayerIp(int playerid, char* ip))
+OMPRS_API(int, GetPlayerIp(int playerid, StringView* ip))
 {
 	GET_PLAYER_CHECKED(player, playerid, -1);
 	PeerNetworkData data = player->getNetworkData();
@@ -774,7 +770,7 @@ OMPRS_API(int, GetPlayerIp(int playerid, char* ip))
 		if (PeerAddress::ToString(data.networkID.address, addressString))
 		{
 			auto addressView = StringView(addressString);
-			addressView.copy(ip, addressView.length());
+			*ip = addressView;
 			return addressView.length();
 		}
 	}
@@ -1137,12 +1133,12 @@ OMPRS_API(bool, SpawnPlayer(int playerid))
 	return true;
 }
 
-OMPRS_API(int, gpci(int playerid, char* output))
+OMPRS_API(int, gpci(int playerid, StringView* output))
 {
 	GET_PLAYER_CHECKED(player, playerid, false);
 
 	auto serial = player->getSerial();
-	serial.copy(output, serial.length());
+	*output = serial;
 
 	return serial.length();
 }
@@ -1189,7 +1185,7 @@ OMPRS_API(bool, HasGameText(int playerid, int style))
 	return player->hasGameText(style);
 }
 
-OMPRS_API(bool, GetGameText(int playerid, int style, char* message, int time, int remaining))
+OMPRS_API(bool, GetGameText(int playerid, int style, StringView* message, int time, int remaining))
 {
 	GET_PLAYER_CHECKED(player, playerid, false);
 	Milliseconds mt;
@@ -1198,7 +1194,7 @@ OMPRS_API(bool, GetGameText(int playerid, int style, char* message, int time, in
 
 	if (player->getGameText(style, ms, mt, mr))
 	{
-		ms.copy(message, ms.length());
+		*message = ms;
 		time = (int)mt.count();
 		remaining = (int)mr.count();
 		return true;
@@ -1239,7 +1235,7 @@ OMPRS_API(bool, SendDeathMessageToPlayer(int playerid, int killerid, int killeei
 	return true;
 }
 
-OMPRS_API(bool, SendPlayerMessageToPlayer(int playerid, int senderid, const char* message))
+OMPRS_API(bool, SendPlayerMessageToPlayer(int playerid, int senderid, StringView message))
 {
 	GET_PLAYER_CHECKED(player, playerid, false);
 	GET_PLAYER_CHECKED(sender, senderid, false);
@@ -1247,7 +1243,7 @@ OMPRS_API(bool, SendPlayerMessageToPlayer(int playerid, int senderid, const char
 	return true;
 }
 
-OMPRS_API(bool, SendPlayerMessageToPlayerf(int playerid, int senderid, const char* message))
+OMPRS_API(bool, SendPlayerMessageToPlayerf(int playerid, int senderid, StringView message))
 {
 	GET_PLAYER_CHECKED(player, playerid, false);
 	GET_PLAYER_CHECKED(sender, senderid, false);
@@ -1255,11 +1251,11 @@ OMPRS_API(bool, SendPlayerMessageToPlayerf(int playerid, int senderid, const cha
 	return true;
 }
 
-OMPRS_API(int, GetPlayerVersion(int playerid, char* version))
+OMPRS_API(int, GetPlayerVersion(int playerid, StringView* version))
 {
 	GET_PLAYER_CHECKED(player, playerid, false);
 	auto player_version = player->getClientVersionName();
-	player_version.copy(version, player_version.length());
+	*version = player_version;
 	return player_version.length();
 }
 
