@@ -238,3 +238,8 @@ OMPRS_API(bool, GetActorSpawnInfo(int actorid, int* skin, float* x, float* y, fl
 	}
 	return false;
 }
+
+OMPRS_API(IActorsComponent*, GetActorsComponent(void))
+{
+	return OMPRSComponent::Get()->GetActors();
+}
