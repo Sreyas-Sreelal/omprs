@@ -38,10 +38,9 @@ OMPRS_API(bool, AddSimpleModelTimed(int virtualworld, int baseid, int newid, Str
 	return models->addCustomModel(ModelType::Object, newid, baseid, dffname, txdname, virtualworld, timeon, timeoff);
 }
 
-OMPRS_API(int, GetPlayerCustomSkin(int playerid))
+OMPRS_API(int, GetPlayerCustomSkin(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, 0);
-	IPlayerCustomModelsData* data = queryExtension<IPlayerCustomModelsData>(player);
+	IPlayerCustomModelsData* data = queryExtension<IPlayerCustomModelsData>(static_cast<IPlayer*>(player));
 
 	if (!data)
 	{
@@ -51,10 +50,9 @@ OMPRS_API(int, GetPlayerCustomSkin(int playerid))
 	return data->getCustomSkin();
 }
 
-OMPRS_API(bool, RedirectDownload(int playerid, char const* url))
+OMPRS_API(bool, RedirectDownload(void* player, char const* url))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	IPlayerCustomModelsData* data = queryExtension<IPlayerCustomModelsData>(player);
+	IPlayerCustomModelsData* data = queryExtension<IPlayerCustomModelsData>(static_cast<IPlayer*>(player));
 
 	if (!data)
 	{

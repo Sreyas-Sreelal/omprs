@@ -11,94 +11,90 @@ OMPRS_API(int, CreateActor(int skin, float x, float y, float z, float angle))
 		IActor* actor = actors->create(skin, Vector3(x, y, z), angle);
 		if (actor)
 		{
-			return actor->getID();
+			return static_cast<IActor*>(actor)->getID();
 		}
 	}
 	return INVALID_ACTOR_ID;
 }
 
-OMPRS_API(bool, DestroyActor(int actorid))
+OMPRS_API(bool, DestroyActor(void* actor))
 {
-	if (OMPRSComponent::Get()->GetActors()->get(actorid) != nullptr)
+	if (actor)
 	{
-		OMPRSComponent::Get()->GetActors()->release(actorid);
+		OMPRSComponent::Get()->GetActors()->release(static_cast<IActor*>(actor)->getID());
 		return true;
 	}
 	return false;
 }
 
-OMPRS_API(bool, IsActorStreamedIn(int actorid, int playerid))
+OMPRS_API(bool, IsActorStreamedIn(void* actor, void* player))
 {
-	auto actor = OMPRSComponent::Get()->GetActor(actorid);
-	auto player = OMPRSComponent::Get()->GetPlayer(playerid);
 	if (actor && player)
 	{
-		return actor->isStreamedInForPlayer(*player);
+		return static_cast<IActor*>(actor)->isStreamedInForPlayer(*static_cast<IPlayer*>(player));
 	}
 	return false;
 }
 
-OMPRS_API(bool, SetActorVirtualWorld(int actorid, int virtualWorld))
+OMPRS_API(bool, SetActorVirtualWorld(void* actor, int virtualWorld))
 {
-	auto actor = OMPRSComponent::Get()->GetActor(actorid);
 	if (actor)
 	{
-		actor->setVirtualWorld(virtualWorld);
+		static_cast<IActor*>(actor)->setVirtualWorld(virtualWorld);
 		return true;
 	}
 	return false;
 }
 
-OMPRS_API(int, GetActorVirtualWorld(int actorid))
+OMPRS_API(int, GetActorVirtualWorld(void* actor))
 {
-	auto actor = OMPRSComponent::Get()->GetActor(actorid);
 	if (actor)
 	{
-		return actor->getVirtualWorld();
+		return static_cast<IActor*>(actor)->getVirtualWorld();
 	}
 	return 0;
 }
 
-OMPRS_API(bool, ApplyActorAnimation(int actorid, StringView animationLibrary, StringView animationName, float delta, bool loop, bool lockX, bool lockY, bool freeze, int time))
+OMPRS_API(bool, ApplyActorAnimation(void* actor, StringView animationLibrary, StringView animationName, float delta, bool loop, bool lockX, bool lockY, bool freeze, int time))
 {
-	auto actor = OMPRSComponent::Get()->GetActor(actorid);
+	
 	if (actor)
 	{
 		const AnimationData animationData(delta, loop, lockX, lockY, freeze, time, animationLibrary, animationName);
-		actor->applyAnimation(animationData);
+		static_cast<IActor*>(actor)->applyAnimation(animationData);
 		return true;
 	}
 	return false;
 }
 
-OMPRS_API(bool, ClearActorAnimations(int actorid))
+OMPRS_API(bool, ClearActorAnimations(void* actor))
 {
-	auto actor = OMPRSComponent::Get()->GetActor(actorid);
+	
 	if (actor)
 	{
-		actor->clearAnimations();
+		static_cast<IActor*>(actor)->clearAnimations();
 		return true;
 	}
 	return false;
 }
 
-OMPRS_API(bool, SetActorPos(int actorid, float x, float y, float z))
+OMPRS_API(bool, SetActorPos(void* actor, float x, float y, float z))
 {
-	auto actor = OMPRSComponent::Get()->GetActor(actorid);
+	
 	if (actor)
 	{
-		actor->setPosition(Vector3(x, y, z));
+		static_cast<IActor*>(actor)->setPosition(Vector3(x, y, z));
 		return true;
 	}
 	return false;
 }
 
-OMPRS_API(bool, GetActorPos(int actorid, float* x, float* y, float* z))
+OMPRS_API(bool, GetActorPos(void* actor, float* x, float* y, float* z))
 {
-	auto actor = OMPRSComponent::Get()->GetActor(actorid);
+	
 	if (actor)
 	{
-		auto position = actor->getPosition();
+		auto position = static_cast<IActor*>(actor)->getPosition();
 		*x = position.x;
 		*y = position.y;
 		*z = position.z;
@@ -107,104 +103,104 @@ OMPRS_API(bool, GetActorPos(int actorid, float* x, float* y, float* z))
 	return false;
 }
 
-OMPRS_API(bool, SetActorFacingAngle(int actorid, float angle))
+OMPRS_API(bool, SetActorFacingAngle(void* actor, float angle))
 {
-	auto actor = OMPRSComponent::Get()->GetActor(actorid);
+	
 	if (actor)
 	{
-		actor->setRotation(Vector3(0.0f, 0.0f, angle));
+		static_cast<IActor*>(actor)->setRotation(Vector3(0.0f, 0.0f, angle));
 		return true;
 	}
 	return false;
 }
 
-OMPRS_API(bool, GetActorFacingAngle(int actorid, float* angle))
+OMPRS_API(bool, GetActorFacingAngle(void* actor, float* angle))
 {
-	auto actor = OMPRSComponent::Get()->GetActor(actorid);
+	
 	if (actor)
 	{
-		*angle = actor->getRotation().ToEuler().z;
+		*angle = static_cast<IActor*>(actor)->getRotation().ToEuler().z;
 		return true;
 	}
 	return false;
 }
 
-OMPRS_API(bool, SetActorHealth(int actorid, float health))
+OMPRS_API(bool, SetActorHealth(void* actor, float health))
 {
-	auto actor = OMPRSComponent::Get()->GetActor(actorid);
+	
 	if (actor)
 	{
-		actor->setHealth(health);
+		static_cast<IActor*>(actor)->setHealth(health);
 		return true;
 	}
 	return false;
 }
 
-OMPRS_API(bool, GetActorHealth(int actorid, float* health))
+OMPRS_API(bool, GetActorHealth(void* actor, float* health))
 {
-	auto actor = OMPRSComponent::Get()->GetActor(actorid);
+	
 	if (actor)
 	{
-		*health = actor->getHealth();
+		*health = static_cast<IActor*>(actor)->getHealth();
 		return true;
 	}
 	return false;
 }
 
-OMPRS_API(bool, SetActorInvulnerable(int actorid, bool invulnerable))
+OMPRS_API(bool, SetActorInvulnerable(void* actor, bool invulnerable))
 {
-	auto actor = OMPRSComponent::Get()->GetActor(actorid);
+	
 	if (actor)
 	{
-		actor->setInvulnerable(invulnerable);
+		static_cast<IActor*>(actor)->setInvulnerable(invulnerable);
 		return true;
 	}
 	return false;
 }
 
-OMPRS_API(bool, IsActorInvulnerable(int actorid))
+OMPRS_API(bool, IsActorInvulnerable(void* actor))
 {
-	auto actor = OMPRSComponent::Get()->GetActor(actorid);
+	
 	if (actor)
 	{
-		return actor->isInvulnerable();
+		return static_cast<IActor*>(actor)->isInvulnerable();
 	}
 	return false;
 }
 
-OMPRS_API(bool, IsValidActor(int actorid))
+OMPRS_API(bool, IsValidActor(void* actor))
 {
-	auto actor = OMPRSComponent::Get()->GetActor(actorid);
+	
 	return actor != nullptr;
 }
 
-OMPRS_API(bool, SetActorSkin(int actorid, int skin))
+OMPRS_API(bool, SetActorSkin(void* actor, int skin))
 {
-	auto actor = OMPRSComponent::Get()->GetActor(actorid);
+	
 	if (actor)
 	{
-		actor->setSkin(skin);
+		static_cast<IActor*>(actor)->setSkin(skin);
 		return true;
 	}
 	return false;
 }
 
-OMPRS_API(int, GetActorSkin(int actorid))
+OMPRS_API(int, GetActorSkin(void* actor))
 {
-	auto actor = OMPRSComponent::Get()->GetActor(actorid);
+	
 	if (actor)
 	{
-		return actor->getSkin();
+		return static_cast<IActor*>(actor)->getSkin();
 	}
 	return -1;
 }
 
-OMPRS_API(bool, GetActorAnimation(int actorid, StringView* animationLibrary, StringView* animationName,  float* delta, bool* loop, bool* lockX, bool* lockY, bool* freeze, unsigned int* time))
+OMPRS_API(bool, GetActorAnimation(void* actor, StringView* animationLibrary, StringView* animationName,  float* delta, bool* loop, bool* lockX, bool* lockY, bool* freeze, unsigned int* time))
 {
-	auto actor = OMPRSComponent::Get()->GetActor(actorid);
+	
 	if (actor)
 	{
-		const AnimationData& anim = actor->getAnimation();
+		const AnimationData& anim = static_cast<IActor*>(actor)->getAnimation();
 		OMPRSComponent::Get()->GetCore()->printLn("name is %s lib is %s", anim.name.data(), anim.lib.data());
 		*animationLibrary= anim.lib;
 		*animationName= anim.name;
@@ -220,12 +216,12 @@ OMPRS_API(bool, GetActorAnimation(int actorid, StringView* animationLibrary, Str
 	return false;
 }
 
-OMPRS_API(bool, GetActorSpawnInfo(int actorid, int* skin, float* x, float* y, float* z, float* angle))
+OMPRS_API(bool, GetActorSpawnInfo(void* actor, int* skin, float* x, float* y, float* z, float* angle))
 {
-	auto actor = OMPRSComponent::Get()->GetActor(actorid);
+	
 	if (actor)
 	{
-		const ActorSpawnData& spawnData = actor->getSpawnData();
+		const ActorSpawnData& spawnData = static_cast<IActor*>(actor)->getSpawnData();
 		auto position = spawnData.position;
 
 		*x = position.x;

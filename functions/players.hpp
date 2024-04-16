@@ -2,767 +2,515 @@
 
 #include "../api.hpp"
 
-OMPRS_API(bool, SendClientMessage(int playerid, int colour, StringView message))
+OMPRS_API(void, SendClientMessage(void* player, Colour colour, StringView message))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->sendClientMessage(Colour::FromRGBA(colour), message);
-	return true;
+	static_cast<IPlayer*>(player)->sendClientMessage(colour, message);
 }
 
-OMPRS_API(int, GetPlayerName(int playerid, StringView* name))
+OMPRS_API(int, GetPlayerName(void* player, StringView* name))
 {
-	GET_PLAYER_CHECKED(player, playerid, 0);
-	*name = player->getName();
-	auto length = player->getName().length();
+	*name = static_cast<IPlayer*>(player)->getName();
+	auto length = name->length();
 	return length;
 }
 
-OMPRS_API(bool, SendClientMessageToAll(int colour, StringView message))
+OMPRS_API(void, SendClientMessageToAll(Colour colour, StringView message))
 {
-	OMPRSComponent::Get()->GetPlayers()->sendClientMessageToAll(Colour::FromRGBA(colour), message);
-	return true;
+	OMPRSComponent::Get()->GetPlayers()->sendClientMessageToAll(colour, message);
 }
 
-OMPRS_API(bool, SetPlayerCameraPos(int playerid, float x, float y, float z))
+OMPRS_API(void, SetPlayerCameraPos(void* player, Vector3 pos))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setCameraPosition(Vector3(x, y, z));
-	return true;
+	static_cast<IPlayer*>(player)->setCameraPosition(pos);
 }
 
-OMPRS_API(bool, SetPlayerDrunkLevel(int playerid, int level))
+OMPRS_API(void, SetPlayerDrunkLevel(void* player, int level))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setDrunkLevel(level);
-	return true;
+	static_cast<IPlayer*>(player)->setDrunkLevel(level);
 }
 
-OMPRS_API(bool, SetPlayerInterior(int playerid, int interiorid))
+OMPRS_API(void, SetPlayerInterior(void* player, int interiorid))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setInterior(interiorid);
-	return true;
+	static_cast<IPlayer*>(player)->setInterior(interiorid);
 }
 
-OMPRS_API(bool, SetPlayerWantedLevel(int playerid, int level))
+OMPRS_API(void, SetPlayerWantedLevel(void* player, int level))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setWantedLevel(level);
-	return true;
+	static_cast<IPlayer*>(player)->setWantedLevel(level);
 }
 
-OMPRS_API(bool, SetPlayerWeather(int playerid, int weatherid))
+OMPRS_API(void, SetPlayerWeather(void* player, int weatherid))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setWeather(weatherid);
-	return true;
+	static_cast<IPlayer*>(player)->setWeather(weatherid);
 }
 
-OMPRS_API(int, GetPlayerWeather(int playerid))
+OMPRS_API(int, GetPlayerWeather(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, -1);
-	return player->getWeather();
+	return static_cast<IPlayer*>(player)->getWeather();
 }
 
-OMPRS_API(bool, SetPlayerSkin(int playerid, int skinid))
+OMPRS_API(void, SetPlayerSkin(void* player, int skinid))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setSkin(skinid);
-	return true;
+	static_cast<IPlayer*>(player)->setSkin(skinid);
 }
 
-OMPRS_API(bool, SetPlayerShopName(int playerid, StringView shopname))
+OMPRS_API(void, SetPlayerShopName(void* player, StringView shopname))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setShopName(shopname);
-	return true;
+	static_cast<IPlayer*>(player)->setShopName(shopname);
 }
 
-OMPRS_API(bool, GivePlayerMoney(int playerid, int amount))
+OMPRS_API(void, GivePlayerMoney(void* player, int amount))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->giveMoney(amount);
-	return true;
+	static_cast<IPlayer*>(player)->giveMoney(amount);
 }
 
-OMPRS_API(bool, SetPlayerCameraLookAt(int playerid, float x, float y, float z, int cut))
+OMPRS_API(void, SetPlayerCameraLookAt(void* player,Vector3 pos, int cut))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setCameraLookAt(Vector3(x, y, z), cut);
-	return true;
+	static_cast<IPlayer*>(player)->setCameraLookAt(pos, cut);
 }
 
-OMPRS_API(bool, SetCameraBehindPlayer(int playerid))
+OMPRS_API(void, SetCameraBehindPlayer(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setCameraBehind();
-	return true;
+	static_cast<IPlayer*>(player)->setCameraBehind();
 }
 
-OMPRS_API(bool, CreateExplosionForPlayer(int playerid, float x, float y, float z, int type, float radius))
+OMPRS_API(void, CreateExplosionForPlayer(void* player, Vector3 pos, int type, float radius))
 {
-	GET_PLAYER_CHECKED(player, playerid, true);
-	player->createExplosion(Vector3(x, y, z), type, radius);
-	return true;
+	static_cast<IPlayer*>(player)->createExplosion(pos, type, radius);
 }
 
-OMPRS_API(bool, CreateExplosion(float x, float y, float z, int type, float radius))
+OMPRS_API(void, CreateExplosion(Vector3 pos, int type, float radius))
 {
-	OMPRSComponent::Get()->GetPlayers()->createExplosionForAll(Vector3(x, y, z), type, radius);
-	return true;
+	OMPRSComponent::Get()->GetPlayers()->createExplosionForAll(pos, type, radius);
 }
 
-OMPRS_API(bool, PlayAudioStreamForPlayer(int playerid, StringView url, float x, float y, float z, float distance, bool usePos))
+OMPRS_API(void, PlayAudioStreamForPlayer(void* player, StringView url,Vector3 pos, float distance, bool usePos))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->playAudio(url, usePos, Vector3(x, y, z), distance);
-	return true;
+	static_cast<IPlayer*>(player)->playAudio(url, usePos, pos, distance);
 }
 
-OMPRS_API(bool, StopAudioStreamForPlayer(int playerid))
+OMPRS_API(void, StopAudioStreamForPlayer(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->stopAudio();
-	return true;
+	static_cast<IPlayer*>(player)->stopAudio();
 }
 
-OMPRS_API(bool, SendDeathMessage(int killerid, int playerid, int weapon))
+OMPRS_API(void, SendDeathMessage(void* killer, void* killee, int weapon))
 {
-	GET_PLAYER_CHECKED(killee, playerid, true);
-	GET_PLAYER_CHECKED(killer, killerid, true);
-
 	if (killee)
 	{
-		OMPRSComponent::Get()->GetPlayers()->sendDeathMessageToAll(killer, *killee, weapon);
+		OMPRSComponent::Get()->GetPlayers()->sendDeathMessageToAll(static_cast<IPlayer*>(killer), *static_cast<IPlayer*>(killee), weapon);
 	}
 	else
 	{
 		OMPRSComponent::Get()->GetPlayers()->sendEmptyDeathMessageToAll();
 	}
-
-	return true;
 }
 
-OMPRS_API(bool, TogglePlayerWidescreen(int playerid, bool enable))
+OMPRS_API(void, TogglePlayerWidescreen(void* player, bool enable))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->useWidescreen(enable);
-	return true;
+	static_cast<IPlayer*>(player)->useWidescreen(enable);
 }
 
-OMPRS_API(bool, IsPlayerWidescreenToggled(int playerid))
+OMPRS_API(bool, IsPlayerWidescreenToggled(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	return player->hasWidescreen();
+	return static_cast<IPlayer*>(player)->hasWidescreen();
 }
 
-OMPRS_API(bool, SetPlayerHealth(int playerid, float health))
+OMPRS_API(void, SetPlayerHealth(void* player, float health))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setHealth(health);
-	return true;
+	static_cast<IPlayer*>(player)->setHealth(health);
 }
 
-OMPRS_API(bool, GetPlayerHealth(int playerid, float* health))
+OMPRS_API(float, GetPlayerHealth(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	*health = player->getHealth();
-	return true;
+	return static_cast<IPlayer*>(player)->getHealth();
 }
 
-OMPRS_API(bool, SetPlayerArmour(int playerid, float armour))
+OMPRS_API(void, SetPlayerArmour(void* player, float armour))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setArmour(armour);
-	return true;
+	static_cast<IPlayer*>(player)->setArmour(armour);
 }
 
-OMPRS_API(bool, GetPlayerArmour(int playerid, float* armour))
+OMPRS_API(float, GetPlayerArmour(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	*armour = player->getArmour();
-	return true;
+	return static_cast<IPlayer*>(player)->getArmour();
 }
 
-OMPRS_API(bool, SetPlayerTeam(int playerid, int teamid))
+OMPRS_API(void, SetPlayerTeam(void* player, int teamid))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setTeam(teamid);
-	return true;
+	static_cast<IPlayer*>(player)->setTeam(teamid);
 }
 
-OMPRS_API(int, GetPlayerTeam(int playerid))
+OMPRS_API(int, GetPlayerTeam(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, -1);
-	return player->getTeam();
+	return static_cast<IPlayer*>(player)->getTeam();
 }
 
-OMPRS_API(bool, SetPlayerScore(int playerid, int score))
+OMPRS_API(void, SetPlayerScore(void* player, int score))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setScore(score);
-	return true;
+	static_cast<IPlayer*>(player)->setScore(score);
 }
 
-OMPRS_API(int, GetPlayerScore(int playerid))
+OMPRS_API(int, GetPlayerScore(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, -1);
-	return player->getScore();
+	return static_cast<IPlayer*>(player)->getScore();
 }
 
-OMPRS_API(int, GetPlayerSkin(int playerid))
+OMPRS_API(int, GetPlayerSkin(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, -1);
-	return player->getSkin();
+	return static_cast<IPlayer*>(player)->getSkin();
 }
 
-OMPRS_API(bool, SetPlayerColor(int playerid, uint32_t colour))
+OMPRS_API(void, SetPlayerColor(void* player, Colour colour))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setColour(Colour::FromRGBA(colour));
-	return true;
+	static_cast<IPlayer*>(player)->setColour(colour);
 }
 
-OMPRS_API(int, GetPlayerColor(int playerid))
+OMPRS_API(int, GetPlayerColor(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, -1);
-	return player->getColour().RGBA();
+	return static_cast<IPlayer*>(player)->getColour().RGBA();
 }
 
-OMPRS_API(int, GetDefaultPlayerColour(int playerid))
+OMPRS_API(int, GetDefaultPlayerColour(void* player))
 {
-	return OMPRSComponent::Get()->GetPlayers()->getDefaultColour(playerid).RGBA();
+	return OMPRSComponent::Get()->GetPlayers()->getDefaultColour(static_cast<IPlayer*>(player)->getID()).RGBA();
 }
 
-OMPRS_API(int, GetPlayerDrunkLevel(int playerid))
+OMPRS_API(int, GetPlayerDrunkLevel(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, -1);
-	return player->getDrunkLevel();
+	return static_cast<IPlayer*>(player)->getDrunkLevel();
 }
 
-OMPRS_API(bool, GivePlayerWeapon(int playerid, int weaponid, int ammo))
+OMPRS_API(void, GivePlayerWeapon(void* player, WeaponSlotData data))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-
-	WeaponSlotData data;
-	data.id = weaponid;
-	data.ammo = ammo;
-
-	player->giveWeapon(data);
-
-	return true;
+	static_cast<IPlayer*>(player)->giveWeapon(data);
 }
 
-OMPRS_API(bool, RemovePlayerWeapon(int playerid, uint8_t weaponid))
+OMPRS_API(void, RemovePlayerWeapon(void* player, uint8_t weaponid))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->removeWeapon(weaponid);
-	return true;
+	static_cast<IPlayer*>(player)->removeWeapon(weaponid);
 }
 
-OMPRS_API(int, GetPlayerMoney(int playerid))
+OMPRS_API(int, GetPlayerMoney(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, -1);
-	return player->getMoney();
+	return static_cast<IPlayer*>(player)->getMoney();
 }
 
-OMPRS_API(bool, ResetPlayerMoney(int playerid))
+OMPRS_API(void, ResetPlayerMoney(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->resetMoney();
-	return true;
+	static_cast<IPlayer*>(player)->resetMoney();
 }
 
-OMPRS_API(int, SetPlayerName(int playerid, StringView name))
+OMPRS_API(EPlayerNameStatus, SetPlayerName(void* player, StringView name))
 {
-	GET_PLAYER_CHECKED(player, playerid, 0);
-	EPlayerNameStatus status = player->setName(name);
-	return status == EPlayerNameStatus::Updated ? 1 : (status == EPlayerNameStatus::Invalid ? -1 : 0);
+	return static_cast<IPlayer*>(player)->setName(name);
 }
 
-OMPRS_API(int, GetPlayerState(int playerid))
+OMPRS_API(PlayerState, GetPlayerState(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, -1);
-	return player->getState();
+	return static_cast<IPlayer*>(player)->getState();
 }
 
-OMPRS_API(int, GetPlayerPing(int playerid))
+OMPRS_API(int, GetPlayerPing(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, -1);
-	return player->getPing();
+	return static_cast<IPlayer*>(player)->getPing();
 }
 
-OMPRS_API(int, GetPlayerWeapon(int playerid))
+OMPRS_API(int, GetPlayerWeapon(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, -1);
-	return player->getArmedWeapon();
+	return static_cast<IPlayer*>(player)->getArmedWeapon();
 }
 
-OMPRS_API(bool, SetPlayerTime(int playerid, int hour, int minute))
+OMPRS_API(void, SetPlayerTime(void* player, int hour, int minute))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setTime(std::chrono::hours(hour), std::chrono::minutes(minute));
-	return true;
+	static_cast<IPlayer*>(player)->setTime(std::chrono::hours(hour), std::chrono::minutes(minute));
 }
 
-OMPRS_API(bool, GetPlayerTime(int playerid, int* hour, int* minute))
+OMPRS_API(void, GetPlayerTime(void* player, int* hour, int* minute))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	std::pair<std::chrono::hours, std::chrono::minutes> data = player->getTime();
+	std::pair<std::chrono::hours, std::chrono::minutes> data = static_cast<IPlayer*>(player)->getTime();
 	*hour = data.first.count();
 	*minute = data.second.count();
-	return true;
 }
 
-OMPRS_API(bool, TogglePlayerClock(int playerid, bool enable))
+OMPRS_API(void, TogglePlayerClock(void* player, bool enable))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->useClock(enable);
-	return true;
+	static_cast<IPlayer*>(player)->useClock(enable);
 }
 
-OMPRS_API(bool, PlayerHasClockEnabled(int playerid))
+OMPRS_API(bool, PlayerHasClockEnabled(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	return player->hasClock();
+	return static_cast<IPlayer*>(player)->hasClock();
 }
 
-OMPRS_API(bool, ForceClassSelection(int playerid))
+OMPRS_API(void, ForceClassSelection(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->forceClassSelection();
-	return true;
+	static_cast<IPlayer*>(player)->forceClassSelection();
 }
 
-OMPRS_API(int, GetPlayerWantedLevel(int playerid))
+OMPRS_API(int, GetPlayerWantedLevel(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	return player->getWantedLevel();
+	return static_cast<IPlayer*>(player)->getWantedLevel();
 }
 
-OMPRS_API(bool, SetPlayerFightingStyle(int playerid, int style))
+OMPRS_API(void, SetPlayerFightingStyle(void* player, PlayerFightingStyle style))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setFightingStyle(PlayerFightingStyle(style));
-	return true;
+	static_cast<IPlayer*>(player)->setFightingStyle(style);
 }
 
-OMPRS_API(int, GetPlayerFightingStyle(int playerid))
+OMPRS_API(PlayerFightingStyle, GetPlayerFightingStyle(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, PlayerFightingStyle_Normal);
-	return player->getFightingStyle();
+	return static_cast<IPlayer*>(player)->getFightingStyle();
 }
 
-OMPRS_API(bool, SetPlayerVelocity(int playerid, float x, float y, float z))
+OMPRS_API(void, SetPlayerVelocity(void* player,Vector3 pos))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setVelocity(Vector3(x, y, z));
-	return true;
+	static_cast<IPlayer*>(player)->setVelocity(pos);
 }
 
-OMPRS_API(bool, GetPlayerVelocity(int playerid, float* x, float* y, float* z))
+OMPRS_API(void, GetPlayerVelocity(void* player,Vector3* pos))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-
-	auto velocity = player->getVelocity();
-	*x = velocity.x;
-	*y = velocity.y;
-	*z = velocity.z;
-
-	return true;
+	*pos = static_cast<IPlayer*>(player)->getVelocity();
 }
 
-OMPRS_API(bool, GetPlayerCameraPos(int playerid, float* x, float* y, float* z))
+OMPRS_API(void, GetPlayerCameraPos(void* player,Vector3* pos))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-
-	auto pos = player->getAimData().camPos;
-	*x = pos.x;
-	*y = pos.y;
-	*z = pos.z;
-
-	return true;
+	*pos =  static_cast<IPlayer*>(player)->getAimData().camPos;
 }
 
-OMPRS_API(float, GetPlayerDistanceFromPoint(int playerid, float x, float y, float z))
+OMPRS_API(float, GetPlayerDistanceFromPoint(void* player, Vector3 pos))
 {
-	GET_PLAYER_CHECKED(player, playerid, -1.0);
-	Vector3 playerCoords = player->getPosition();
-	return glm::distance(playerCoords, Vector3(x, y, z));
+	Vector3 playerCoords = static_cast<IPlayer*>(player)->getPosition();
+	return glm::distance(playerCoords, pos);
 }
 
-OMPRS_API(int, GetPlayerInterior(int playerid))
+OMPRS_API(int, GetPlayerInterior(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, -1);
-	return player->getInterior();
+	return static_cast<IPlayer*>(player)->getInterior();
 }
 
-OMPRS_API(bool, SetPlayerPos(int playerid, float x, float y, float z))
+OMPRS_API(void, SetPlayerPos(void* player, Vector3 pos))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setPosition(Vector3(x, y, z));
-	return true;
+	static_cast<IPlayer*>(player)->setPosition(pos);
 }
 
-OMPRS_API(bool, GetPlayerPos(int playerid, float* x, float* y, float* z))
+OMPRS_API(void, GetPlayerPos(void* player,Vector3* pos))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-
-	auto pos = player->getPosition();
-	*x = pos.x;
-	*y = pos.y;
-	*z = pos.z;
-
-	return true;
+	*pos =  static_cast<IPlayer*>(player)->getPosition();
 }
 
-OMPRS_API(int, GetPlayerVirtualWorld(int playerid))
+OMPRS_API(int, GetPlayerVirtualWorld(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, -1);
-	return player->getVirtualWorld();
+	return static_cast<IPlayer*>(player)->getVirtualWorld();
 }
 
-OMPRS_API(bool, IsPlayerNPC(int playerid))
+OMPRS_API(bool, IsPlayerNPC(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	return player->isBot();
+	return static_cast<IPlayer*>(player)->isBot();
 }
 
-OMPRS_API(bool, IsPlayerStreamedIn(int playerid, int otherid))
+OMPRS_API(bool, IsPlayerStreamedIn(void* player, void* other))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	GET_PLAYER_CHECKED(other, otherid, false);
-	return player->isStreamedInForPlayer(*other);
+	return static_cast<IPlayer*>(player)->isStreamedInForPlayer(*static_cast<IPlayer*>(other));
 }
 
-OMPRS_API(bool, PlayerPlaySound(int playerid, uint32_t sound, float x, float y, float z))
+OMPRS_API(void, PlayerPlaySound(void* player, uint32_t sound, Vector3 pos))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->playSound(sound, Vector3(x, y, z));
-	return true;
+	static_cast<IPlayer*>(player)->playSound(sound, pos);
 }
 
-OMPRS_API(bool, PlayerSpectatePlayer(int playerid, int targetid, int mode))
+OMPRS_API(void, PlayerSpectatePlayer(void* player, void* target, PlayerSpectateMode mode))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	GET_PLAYER_CHECKED(target, targetid, false);
-	player->spectatePlayer(*target, PlayerSpectateMode(mode));
-	return true;
+	static_cast<IPlayer*>(player)->spectatePlayer(*static_cast<IPlayer*>(target), mode);
 }
 
-OMPRS_API(bool, PlayerSpectateVehicle(int playerid, int targetvehicleid, int mode))
+OMPRS_API(void, PlayerSpectateVehicle(void* player, void* vehicle, PlayerSpectateMode mode))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	GET_VEHICLE_CHECKED(vehicle, targetvehicleid, false);
-	player->spectateVehicle(*vehicle, PlayerSpectateMode(mode));
-	return true;
+	static_cast<IPlayer*>(player)->spectateVehicle(*static_cast<IVehicle*>(vehicle), mode);
 }
 
-OMPRS_API(bool, SetPlayerVirtualWorld(int playerid, int vw))
+OMPRS_API(void, SetPlayerVirtualWorld(void* player, int vw))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setVirtualWorld(vw);
-	return true;
+	static_cast<IPlayer*>(player)->setVirtualWorld(vw);
 }
 
-OMPRS_API(bool, SetPlayerWorldBounds(int playerid, float xMax, float xMin, float yMax, float yMin))
+OMPRS_API(void, SetPlayerWorldBounds(void* player, Vector4 coords))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	Vector4 coords = { xMax, xMin, yMax, yMin };
-	player->setWorldBounds(coords);
-	return true;
+	static_cast<IPlayer*>(player)->setWorldBounds(coords);
 }
 
-OMPRS_API(bool, ClearPlayerWorldBounds(int playerid))
+OMPRS_API(void, ClearPlayerWorldBounds(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setWorldBounds(Vector4(MAX_WORLD_BOUNDS, MIN_WORLD_BOUNDS, MAX_WORLD_BOUNDS, MIN_WORLD_BOUNDS));
-	return true;
+	static_cast<IPlayer*>(player)->setWorldBounds(Vector4(MAX_WORLD_BOUNDS, MIN_WORLD_BOUNDS, MAX_WORLD_BOUNDS, MIN_WORLD_BOUNDS));
 }
 
-OMPRS_API(bool, GetPlayerWorldBounds(int playerid, float* xMax, float* xMin, float* yMax, float* yMin))
+OMPRS_API(void,GetPlayerWorldBounds(void* player,Vector4* pos))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-
-	auto bounds = player->getWorldBounds();
-	*xMax = bounds.x;
-	*xMin = bounds.y;
-	*yMax = bounds.z;
-	*yMin = bounds.w;
-
-	return true;
+	*pos =  static_cast<IPlayer*>(player)->getWorldBounds();
 }
 
-OMPRS_API(bool, ClearAnimations(int playerid, int syncType))
+OMPRS_API(void, ClearAnimations(void* player, PlayerAnimationSyncType syncType))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->clearTasks(PlayerAnimationSyncType(syncType));
-	return true;
+	static_cast<IPlayer*>(player)->clearTasks(syncType);
 }
 
-OMPRS_API(bool, GetPlayerLastShotVectors(int playerid, float* fOriginX, float* fOriginY, float* fOriginZ, float* fHitPosX, float* fHitPosY, float* fHitPosZ))
+OMPRS_API(PlayerBulletData, GetPlayerLastShotVectors(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	PlayerBulletData data = player->getBulletData();
-
-	*fOriginX = data.origin.x;
-	*fOriginY = data.origin.y;
-	*fOriginZ = data.origin.z;
-
-	*fHitPosX = data.hitPos.x;
-	*fHitPosY = data.hitPos.y;
-	*fHitPosZ = data.hitPos.z;
-
-	return true;
+	return static_cast<IPlayer*>(player)->getBulletData();
 }
 
-OMPRS_API(int, GetPlayerCameraTargetPlayer(int playerid))
+OMPRS_API(void*, GetPlayerCameraTargetPlayer(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, INVALID_PLAYER_ID);
-	IPlayer* target = player->getCameraTargetPlayer();
-
-	if (target)
-	{
-		return target->getID();
-	}
-
-	return INVALID_PLAYER_ID;
+	return static_cast<IPlayer*>(player)->getCameraTargetPlayer();
 }
 
-OMPRS_API(int, GetPlayerCameraTargetActor(int playerid))
+OMPRS_API(void*, GetPlayerCameraTargetActor(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, INVALID_ACTOR_ID);
-	IActor* target = player->getCameraTargetActor();
-
-	if (target)
-	{
-		return target->getID();
-	}
-
-	return INVALID_ACTOR_ID;
+	return static_cast<IPlayer*>(player)->getCameraTargetActor();
 }
 
-OMPRS_API(int, GetPlayerCameraTargetObject(int playerid))
+OMPRS_API(void*, GetPlayerCameraTargetObject(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, INVALID_OBJECT_ID);
-	IObject* target = player->getCameraTargetObject();
-
-	if (target)
-	{
-		return target->getID();
-	}
-
-	return INVALID_OBJECT_ID;
+	return static_cast<IPlayer*>(player)->getCameraTargetObject();	
 }
 
-OMPRS_API(int, GetPlayerCameraTargetVehicle(int playerid))
+OMPRS_API(void*, GetPlayerCameraTargetVehicle(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, INVALID_VEHICLE_ID);
-	IVehicle* target = player->getCameraTargetVehicle();
-
-	if (target)
-	{
-		return target->getID();
-	}
-
-	return INVALID_VEHICLE_ID;
+	return static_cast<IPlayer*>(player)->getCameraTargetVehicle();
 }
 
-OMPRS_API(bool, IsPlayerConnected(int playerid))
+OMPRS_API(void, PutPlayerInVehicle(void* player, void* vehicle, int seatID))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	return true;
+	static_cast<IVehicle*>(vehicle)->putPlayer(*static_cast<IPlayer*>(player), seatID);
 }
 
-OMPRS_API(bool, PutPlayerInVehicle(int playerid, int vehicleid, int seatID))
+OMPRS_API(void, RemoveBuildingForPlayer(void* player, int model,Vector3 pos, float radius))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	GET_VEHICLE_CHECKED(vehicle, vehicleid, false);
-
-	vehicle->putPlayer(*player, seatID);
-
-	return true;
+	static_cast<IPlayer*>(player)->removeDefaultObjects(model, pos, radius);
 }
 
-OMPRS_API(bool, RemoveBuildingForPlayer(int playerid, int model, float x, float y, float z, float radius))
+OMPRS_API(int, GetPlayerBuildingsRemoved(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->removeDefaultObjects(model, Vector3(x, y, z), radius);
-	return true;
+	return static_cast<IPlayer*>(player)->getDefaultObjectsRemoved();
 }
 
-OMPRS_API(int, GetPlayerBuildingsRemoved(int playerid))
+OMPRS_API(void, RemovePlayerFromVehicle(void* player, bool force))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	return player->getDefaultObjectsRemoved();
+	static_cast<IPlayer*>(player)->removeFromVehicle(force);
 }
 
-OMPRS_API(bool, RemovePlayerFromVehicle(int playerid, bool force))
+OMPRS_API(void, RemovePlayerMapIcon(void* player, int iconID))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->removeFromVehicle(force);
-	return true;
+	static_cast<IPlayer*>(player)->unsetMapIcon(iconID);
 }
 
-OMPRS_API(bool, RemovePlayerMapIcon(int playerid, int iconID))
+OMPRS_API(void, SetPlayerMapIcon(void* player, int iconID, Vector3 pos, int type, Colour colour, MapIconStyle style))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->unsetMapIcon(iconID);
-	return true;
+	static_cast<IPlayer*>(player)->setMapIcon(iconID, pos, type,colour, style);
 }
 
-OMPRS_API(bool, SetPlayerMapIcon(int playerid, int iconID, float x,float y,float z, int type, uint32_t colour, int style))
+OMPRS_API(void, ResetPlayerWeapons(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setMapIcon(iconID, Vector3(x,y,z), type, Colour::FromRGBA(colour), MapIconStyle(style));
-	return true;
+	static_cast<IPlayer*>(player)->resetWeapons();
 }
 
-OMPRS_API(bool, ResetPlayerWeapons(int playerid))
+OMPRS_API(void, SetPlayerAmmo(void* player, WeaponSlotData data))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->resetWeapons();
-	return true;
+	static_cast<IPlayer*>(player)->setWeaponAmmo(data);
 }
 
-OMPRS_API(bool, SetPlayerAmmo(int playerid, uint8_t id, uint32_t ammo))
+OMPRS_API(void, SetPlayerArmedWeapon(void* player, int weapon))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-
-	WeaponSlotData data;
-	data.id = id;
-	data.ammo = ammo;
-
-	player->setWeaponAmmo(data);
-
-	return true;
+	static_cast<IPlayer*>(player)->setArmedWeapon(weapon);
 }
 
-OMPRS_API(bool, SetPlayerArmedWeapon(int playerid, int weapon))
+OMPRS_API(void, SetPlayerChatBubble(void* player, StringView text, Colour colour, float drawdistance, int expiretime))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setArmedWeapon(weapon);
-	return true;
+	static_cast<IPlayer*>(player)->setChatBubble(text, colour, drawdistance, std::chrono::milliseconds(expiretime));
 }
 
-OMPRS_API(bool, SetPlayerChatBubble(int playerid, char const* text, int colour, float drawdistance, int expiretime))
+OMPRS_API(void, SetPlayerPosFindZ(void* player, Vector3 pos))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setChatBubble(text, Colour::FromRGBA(colour), drawdistance, std::chrono::milliseconds(expiretime));
-	return true;
+	static_cast<IPlayer*>(player)->setPositionFindZ(pos);
 }
 
-OMPRS_API(bool, SetPlayerPosFindZ(int playerid, float x, float y, float z))
+OMPRS_API(void, SetPlayerSkillLevel(void* player, PlayerWeaponSkill weapon, int level))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setPositionFindZ(Vector3(x, y, z));
-	return true;
+	static_cast<IPlayer*>(player)->setSkillLevel(weapon, level);
 }
 
-OMPRS_API(bool, SetPlayerSkillLevel(int playerid, int weapon, int level))
+OMPRS_API(void, SetPlayerSpecialAction(void* player, PlayerSpecialAction action))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setSkillLevel(PlayerWeaponSkill(weapon), level);
-	return true;
+	static_cast<IPlayer*>(player)->setAction(action);
 }
 
-OMPRS_API(bool, SetPlayerSpecialAction(int playerid, uint32_t action))
+OMPRS_API(void, ShowPlayerNameTagForPlayer(void* player, void* other, bool enable))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setAction(PlayerSpecialAction(action));
-	return true;
+	static_cast<IPlayer*>(player)->toggleOtherNameTag(*static_cast<IPlayer*>(other), enable);
 }
 
-OMPRS_API(bool, ShowPlayerNameTagForPlayer(int playerid, int otherid, bool enable))
+OMPRS_API(void, TogglePlayerControllable(void* player, bool enable))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	GET_PLAYER_CHECKED(other, otherid, false);
-	player->toggleOtherNameTag(*other, enable);
-	return true;
+	static_cast<IPlayer*>(player)->setControllable(enable);
 }
 
-OMPRS_API(bool, TogglePlayerControllable(int playerid, bool enable))
+OMPRS_API(void, TogglePlayerSpectating(void* player, bool enable))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setControllable(enable);
-	return true;
+	static_cast<IPlayer*>(player)->setSpectating(enable);
 }
 
-OMPRS_API(bool, TogglePlayerSpectating(int playerid, bool enable))
+OMPRS_API(void, ApplyAnimation(void* player, AnimationData animationData, PlayerAnimationSyncType sync))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setSpectating(enable);
-	return true;
+	static_cast<IPlayer*>(player)->applyAnimation(animationData, sync);
 }
 
-OMPRS_API(bool, ApplyAnimation(int playerid, StringView animlib, StringView animname, float delta, bool loop, bool lockX, bool lockY, bool freeze, int time, int sync))
-{
-	GET_PLAYER_CHECKED(player, playerid, false);
-	const AnimationData animationData(delta, loop, lockX, lockY, freeze, time, animlib, animname);
-	player->applyAnimation(animationData, PlayerAnimationSyncType(sync));
-	return true;
-}
-
-OMPRS_API(bool, GetAnimationName(int index, StringView* lib, StringView* name))
+OMPRS_API(void, GetAnimationName(int index, StringView* lib, StringView* name))
 {
 	Pair<StringView, StringView> anim = splitAnimationNames(index);
 	*lib = anim.first;
 	*name = anim.second;
-	return true;
 }
 
-OMPRS_API(bool, EditAttachedObject(int playerid, int index))
+OMPRS_API(void, EditAttachedObject(void* player, int index))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	IPlayerObjectData* data = queryExtension<IPlayerObjectData>(player);
+	IPlayerObjectData* data = queryExtension<IPlayerObjectData>(static_cast<IPlayer*>(player));
 	data->editAttachedObject(index);
-	return true;
 }
 
-OMPRS_API(bool, EnablePlayerCameraTarget(int playerid, bool enable))
+OMPRS_API(void, EnablePlayerCameraTarget(void* player, bool enable))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->useCameraTargeting(enable);
-	return true;
+	static_cast<IPlayer*>(player)->useCameraTargeting(enable);
 }
 
-OMPRS_API(bool, EnableStuntBonusForPlayer(int playerid, bool enable))
+OMPRS_API(void, EnableStuntBonusForPlayer(void* player, bool enable))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->useStuntBonuses(enable);
-	return true;
+	static_cast<IPlayer*>(player)->useStuntBonuses(enable);
 }
 
-OMPRS_API(bool, EnableStuntBonusForAll(bool enable))
+OMPRS_API(void, EnableStuntBonusForAll(bool enable))
 {
 	OMPRSComponent::Get()->GetCore()->useStuntBonuses(enable);
-	return true;
 }
 
-OMPRS_API(int, GetPlayerAmmo(int playerid))
+OMPRS_API(int, GetPlayerAmmo(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, 0);
-	return player->getArmedWeaponAmmo();
+	return static_cast<IPlayer*>(player)->getArmedWeaponAmmo();
 }
 
-OMPRS_API(int, GetPlayerAnimationIndex(int playerid))
+OMPRS_API(int, GetPlayerAnimationIndex(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, 0);
-	return player->getAnimationData().ID;
+	return static_cast<IPlayer*>(player)->getAnimationData().ID;
 }
 
-OMPRS_API(bool, GetPlayerFacingAngle(int playerid, float* angle))
+OMPRS_API(float, GetPlayerFacingAngle(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	GTAQuat quat = player->getRotation();
-	*angle = quat.ToEuler().z;
-	return true;
+	GTAQuat quat = static_cast<IPlayer*>(player)->getRotation();
+	return quat.ToEuler().z;
 }
 
-OMPRS_API(int, GetPlayerIp(int playerid, StringView* ip))
+OMPRS_API(int, GetPlayerIp(void* player, StringView* ip))
 {
-	GET_PLAYER_CHECKED(player, playerid, -1);
-	PeerNetworkData data = player->getNetworkData();
+	PeerNetworkData data = static_cast<IPlayer*>(player)->getNetworkData();
 
 	if (!data.networkID.address.ipv6)
 	{
@@ -778,16 +526,14 @@ OMPRS_API(int, GetPlayerIp(int playerid, StringView* ip))
 	return -1;
 }
 
-OMPRS_API(int, GetPlayerSpecialAction(int playerid))
+OMPRS_API(PlayerSpecialAction, GetPlayerSpecialAction(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, -1);
-	return player->getAction();
+	return static_cast<IPlayer*>(player)->getAction();
 }
 
-OMPRS_API(int, GetPlayerVehicleID(int playerid))
+OMPRS_API(int, GetPlayerVehicleID(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, INVALID_VEHICLE_ID);
-	IPlayerVehicleData* data = queryExtension<IPlayerVehicleData>(player);
+	IPlayerVehicleData* data = queryExtension<IPlayerVehicleData>(static_cast<IPlayer*>(player));
 	IVehicle* vehicle = data->getVehicle();
 
 	if (vehicle)
@@ -798,471 +544,263 @@ OMPRS_API(int, GetPlayerVehicleID(int playerid))
 	return 0;
 }
 
-OMPRS_API(int, GetPlayerVehicleSeat(int playerid))
+OMPRS_API(int, GetPlayerVehicleSeat(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, SEAT_NONE);
-	IPlayerVehicleData* data = queryExtension<IPlayerVehicleData>(player);
+	IPlayerVehicleData* data = queryExtension<IPlayerVehicleData>(static_cast<IPlayer*>(player));
 	return data->getSeat();
 }
 
-OMPRS_API(bool, GetPlayerWeaponData(int playerid, int slot, int* weaponid, int* ammo))
+OMPRS_API(void, GetPlayerWeaponData(void* player, int slot, WeaponSlotData* weapon))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
+	*weapon = static_cast<IPlayer*>(player)->getWeaponSlot(slot);
+}
 
-	if (slot < 0 || slot >= MAX_WEAPON_SLOTS)
-	{
-		return false;
-	}
+OMPRS_API(int, GetPlayerWeaponState(void* player))
+{
+	return static_cast<IPlayer*>(player)->getAimData().weaponState;
+}
 
-	const WeaponSlotData& weapon = player->getWeaponSlot(slot);
-	*weaponid = weapon.id;
-	*ammo = weapon.ammo;
+OMPRS_API(void, InterpolateCameraPos(void* player, Vector3 from, Vector3 to, int time, PlayerCameraCutType cut))
+{
+	static_cast<IPlayer*>(player)->interpolateCameraPosition(from, to, time, cut);
+}
 
+OMPRS_API(bool, InterpolateCameraLookAt(void* player, Vector3 from, Vector3 to, int time, PlayerCameraCutType cut))
+{
+	static_cast<IPlayer*>(player)->interpolateCameraLookAt(from, to, time, cut);
 	return true;
 }
 
-OMPRS_API(int, GetPlayerWeaponState(int playerid))
+OMPRS_API(bool, IsPlayerAttachedObjectSlotUsed(void* player, int index))
 {
-	GET_PLAYER_CHECKED(player, playerid, 0);
-	return player->getAimData().weaponState;
-}
-
-OMPRS_API(bool, InterpolateCameraPos(int playerid, float FromX, float FromY, float FromZ, float ToX, float ToY, float ToZ, int time, int cut))
-{
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->interpolateCameraPosition(Vector3(FromX, FromY, FromZ), Vector3(ToX, ToY, ToZ), time, PlayerCameraCutType(cut));
-	return true;
-}
-
-OMPRS_API(bool, InterpolateCameraLookAt(int playerid, float FromX, float FromY, float FromZ, float ToX, float ToY, float ToZ, int time, int cut))
-{
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->interpolateCameraLookAt(Vector3(FromX, FromY, FromZ), Vector3(ToX, ToY, ToZ), time, PlayerCameraCutType(cut));
-	return true;
-}
-
-OMPRS_API(bool, IsPlayerAttachedObjectSlotUsed(int playerid, int index))
-{
-	GET_PLAYER_CHECKED(player, playerid, false);
-	IPlayerObjectData* data = queryExtension<IPlayerObjectData>(player);
+	IPlayerObjectData* data = queryExtension<IPlayerObjectData>(static_cast<IPlayer*>(player));
 	return data->hasAttachedObject(index);
 }
 
-OMPRS_API(bool, AttachCameraToObject(int playerid, int objectid))
+OMPRS_API(void, AttachCameraToObject(void* player, void* object))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	GET_ENTITY_CHECKED(object, IObject, objectid, false);
-	player->attachCameraToObject(*object);
-	return true;
+	static_cast<IPlayer*>(player)->attachCameraToObject(*static_cast<IObject*>(object));
 }
 
-OMPRS_API(bool, AttachCameraToPlayerObject(int playerid, int objectid))
+OMPRS_API(void, AttachCameraToPlayerObject(void* player, void* object))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	GET_ENTITY_CHECKED(object, IObject, objectid, false);
-	player->attachCameraToObject(*object);
-	return true;
+	static_cast<IPlayer*>(player)->attachCameraToObject(*static_cast<IPlayerObject*>(object));
 }
 
-OMPRS_API(float, GetPlayerCameraAspectRatio(int playerid))
+OMPRS_API(PlayerAimData, GetPlayerAimData(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, 0.0);
-	return player->getAimData().aspectRatio;
+	return static_cast<IPlayer*>(player)->getAimData();
 }
 
-OMPRS_API(bool, GetPlayerCameraFrontVector(int playerid, float* x, float* y, float* z))
+OMPRS_API(PlayerKeyData, GetPlayerKeys(void* player, int* keys, int* updown, int* leftright))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-
-	auto vector = player->getAimData().camFrontVector;
-	*x = vector.x;
-	*y = vector.y;
-	*z = vector.z;
-
-	return true;
+	return static_cast<IPlayer*>(player)->getKeyData();
 }
 
-OMPRS_API(int, GetPlayerCameraMode(int playerid))
+OMPRS_API(PlayerSurfingData, GetPlayerSurfingData(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, -1);
-	return player->getAimData().camMode;
+	return static_cast<IPlayer*>(player)->getSurfingData();
 }
 
-OMPRS_API(bool, GetPlayerKeys(int playerid, int* keys, int* updown, int* leftright))
+OMPRS_API(void*, GetPlayerTargetPlayer(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-
-	const PlayerKeyData& keyData = player->getKeyData();
-	*keys = keyData.keys;
-	*updown = keyData.upDown;
-	*leftright = keyData.leftRight;
-
-	return true;
+	return static_cast<IPlayer*>(player)->getTargetPlayer();
 }
 
-OMPRS_API(int, GetPlayerSurfingVehicleID(int playerid))
+OMPRS_API(void*, GetPlayerTargetActor(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, INVALID_VEHICLE_ID);
-	PlayerSurfingData data = player->getSurfingData();
-
-	if (player->getState() == PlayerState_OnFoot && data.type == PlayerSurfingData::Type::Vehicle)
-	{
-		IVehiclesComponent* vehicles = OMPRSComponent::Get()->GetVehicles();
-		if (vehicles && vehicles->get(data.ID))
-		{
-			return data.ID;
-		}
-	}
-
-	return INVALID_VEHICLE_ID;
+	return static_cast<IPlayer*>(player)->getTargetActor();
 }
 
-OMPRS_API(int, GetPlayerSurfingObjectID(int playerid))
+OMPRS_API(bool, IsPlayerInVehicle(void* player, void* targetVehicle))
 {
-	GET_PLAYER_CHECKED(player, playerid, INVALID_OBJECT_ID);
-	PlayerSurfingData data = player->getSurfingData();
-
-	if (player->getState() == PlayerState_OnFoot && data.type == PlayerSurfingData::Type::Object)
-	{
-		IObjectsComponent* objects = OMPRSComponent::Get()->GetObjects();
-		if (objects && objects->get(data.ID))
-		{
-			return data.ID;
-		}
-	}
-
-	return INVALID_OBJECT_ID;
-}
-
-OMPRS_API(int, GetPlayerTargetPlayer(int playerid))
-{
-	GET_PLAYER_CHECKED(player, playerid, INVALID_PLAYER_ID);
-	IPlayer* target = player->getTargetPlayer();
-
-	if (target)
-	{
-		return target->getID();
-	}
-
-	return INVALID_PLAYER_ID;
-}
-
-OMPRS_API(int, GetPlayerTargetActor(int playerid))
-{
-	GET_PLAYER_CHECKED(player, playerid, INVALID_PLAYER_ID);
-	IActor* target = player->getTargetActor();
-
-	if (target)
-	{
-		return target->getID();
-	}
-
-	return INVALID_PLAYER_ID;
-}
-
-OMPRS_API(bool, IsPlayerInVehicle(int playerid, int vehicleid))
-{
-	GET_PLAYER_CHECKED(player, playerid, false);
-	GET_ENTITY_CHECKED(targetVehicle, IVehicle, vehicleid, false);
-
-	IPlayerVehicleData* data = queryExtension<IPlayerVehicleData>(player);
+	IPlayerVehicleData* data = queryExtension<IPlayerVehicleData>(static_cast<IPlayer*>(player));
 	IVehicle* vehicle = data->getVehicle();
-
 	return vehicle == targetVehicle;
 }
 
-OMPRS_API(bool, IsPlayerInAnyVehicle(int playerid))
+OMPRS_API(bool, IsPlayerInAnyVehicle(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	IPlayerVehicleData* data = queryExtension<IPlayerVehicleData>(player);
+	IPlayerVehicleData* data = queryExtension<IPlayerVehicleData>(static_cast<IPlayer*>(player));
 	return data->getVehicle() != nullptr;
 }
 
-OMPRS_API(bool, IsPlayerInRangeOfPoint(int playerid, float range, float x, float y, float z))
+OMPRS_API(bool, IsPlayerInRangeOfPoint(void* player, float range, Vector3 coord))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	return range >= glm::distance(player->getPosition(), Vector3(x, y, z));
+	return range >= glm::distance(static_cast<IPlayer*>(player)->getPosition(), coord);
 }
 
-OMPRS_API(bool, PlayCrimeReportForPlayer(int playerid, int suspectid, int crime))
+OMPRS_API(bool, PlayCrimeReportForPlayer(void* player, void* suspect, int crime))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	GET_PLAYER_CHECKED(suspect, suspectid, false);
-	return player->playerCrimeReport(*suspect, crime);
+	return static_cast<IPlayer*>(player)->playerCrimeReport(*static_cast<IPlayer*>(suspect), crime);
 }
 
-OMPRS_API(bool, RemovePlayerAttachedObject(int playerid, int index))
+OMPRS_API(void, RemovePlayerAttachedObject(void* player, int index))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	IPlayerObjectData* data = queryExtension<IPlayerObjectData>(player);
+	IPlayerObjectData* data = queryExtension<IPlayerObjectData>(static_cast<IPlayer*>(player));
 	data->removeAttachedObject(index);
-	return true;
 }
 
-OMPRS_API(bool, SetPlayerAttachedObject(int playerid, int index, int modelid, int bone, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ, float fScaleX, float fScaleY, float fScaleZ, uint32_t materialcolor1, uint32_t materialcolor2))
+OMPRS_API(void, SetPlayerAttachedObject(void* player, int index, ObjectAttachmentSlotData attachment))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	IPlayerObjectData* data = queryExtension<IPlayerObjectData>(player);
-
-	ObjectAttachmentSlotData attachment;
-	attachment.model = modelid;
-	attachment.bone = bone;
-	attachment.offset = Vector3(fOffsetX, fOffsetY, fOffsetZ);
-	attachment.rotation = Vector3(fRotX, fRotY, fRotZ);
-	attachment.scale = Vector3(fScaleX, fScaleY, fScaleZ);
-	attachment.colour1 = Colour::FromARGB(materialcolor1);
-	attachment.colour2 = Colour::FromARGB(materialcolor2);
-
+	IPlayerObjectData* data = queryExtension<IPlayerObjectData>(static_cast<IPlayer*>(player));
 	data->setAttachedObject(index, attachment);
-
-	return true;
 }
 
-OMPRS_API(bool, GetPlayerAttachedObject(int playerid, int index, int* modelid, int* bone, float* fOffsetX, float* fOffsetY, float* fOffsetZ, float* fRotX, float* fRotY, float* fRotZ, float* fScaleX, float* fScaleY, float* fScaleZ, int* materialcolor1, int* materialcolor2))
+OMPRS_API(ObjectAttachmentSlotData, GetPlayerAttachedObject(void* player, int index))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	IPlayerObjectData* data = queryExtension<IPlayerObjectData>(player);
-	ObjectAttachmentSlotData attachment = data->getAttachedObject(index);
-
-	*modelid = attachment.model;
-	*bone = attachment.bone;
-
-	*fOffsetX = attachment.offset.x;
-	*fOffsetY = attachment.offset.y;
-	*fOffsetZ = attachment.offset.z;
-
-	*fRotX = attachment.rotation.x;
-	*fRotY = attachment.rotation.y;
-	*fRotZ = attachment.rotation.z;
-
-	*fScaleX = attachment.scale.x;
-	*fScaleY = attachment.scale.y;
-	*fScaleZ = attachment.scale.z;
-
-	*materialcolor1 = attachment.colour1.ARGB();
-	*materialcolor2 = attachment.colour2.ARGB();
-
-	return true;
+	IPlayerObjectData* data = queryExtension<IPlayerObjectData>(static_cast<IPlayer*>(player));
+	return data->getAttachedObject(index);
 }
 
-OMPRS_API(bool, SetPlayerFacingAngle(int playerid, float angle))
+OMPRS_API(void, SetPlayerFacingAngle(void* player, float angle))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	Vector3 rotation = player->getRotation().ToEuler();
+	Vector3 rotation = static_cast<IPlayer*>(player)->getRotation().ToEuler();
 	rotation.z = angle;
-	player->setRotation(rotation);
-	return true;
+	static_cast<IPlayer*>(player)->setRotation(rotation);
 }
 
-OMPRS_API(bool, SetPlayerMarkerForPlayer(int playerid, int otherid, int colour))
+OMPRS_API(void, SetPlayerMarkerForPlayer(void* player, void* other, Colour colour))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	GET_PLAYER_CHECKED(other, otherid, false);
-	player->setOtherColour(*other, Colour::FromRGBA(colour));
-	return true;
+	static_cast<IPlayer*>(player)->setOtherColour(*static_cast<IPlayer*>(other), colour);
 }
 
-OMPRS_API(int, GetPlayerMarkerForPlayer(int playerid, int otherid))
+OMPRS_API(int, GetPlayerMarkerForPlayer(void* player, void* other))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	GET_PLAYER_CHECKED(other, otherid, false);
 	Colour colour;
-	bool hasPlayerSpecificColour = player->getOtherColour(*other, colour);
+	bool hasPlayerSpecificColour = static_cast<IPlayer*>(player)->getOtherColour(*static_cast<IPlayer*>(other), colour);
 
 	if (!hasPlayerSpecificColour)
 	{
-		colour = other->getColour();
+		colour = static_cast<IPlayer*>(other)->getColour();
 	}
 
 	return colour.RGBA();
 }
 
-OMPRS_API(bool, AllowPlayerTeleport(int playerid, bool allow))
+OMPRS_API(void, AllowPlayerTeleport(void* player, bool allow))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->allowTeleport(allow);
-	return true;
+	return static_cast<IPlayer*>(player)->allowTeleport(allow);
 }
 
-OMPRS_API(bool, IsPlayerTeleportAllowed(int playerid))
+OMPRS_API(bool, IsPlayerTeleportAllowed(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	return player->isTeleportAllowed();
+	return static_cast<IPlayer*>(player)->isTeleportAllowed();
 }
 
-OMPRS_API(bool, DisableRemoteVehicleCollisions(int playerid, bool disable))
+OMPRS_API(void, SetRemoteVehicleCollisions(void* player, bool collide))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setRemoteVehicleCollisions(!disable);
-	return true;
+	static_cast<IPlayer*>(player)->setRemoteVehicleCollisions(collide);
 }
 
-OMPRS_API(float, GetPlayerCameraZoom(int playerid))
+OMPRS_API(void, SelectTextDraw(void* player, Colour hoverColour))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	return player->getAimData().camZoom;
+	IPlayerTextDrawData* data = queryExtension<IPlayerTextDrawData>(static_cast<IPlayer*>(player));
+	data->beginSelection(hoverColour);
 }
 
-OMPRS_API(bool, SelectTextDraw(int playerid, uint32_t hoverColour))
+OMPRS_API(void, CancelSelectTextDraw(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	IPlayerTextDrawData* data = queryExtension<IPlayerTextDrawData>(player);
-	data->beginSelection(Colour::FromRGBA(hoverColour));
-	return true;
-}
-
-OMPRS_API(bool, CancelSelectTextDraw(int playerid))
-{
-	GET_PLAYER_CHECKED(player, playerid, false);
-	IPlayerTextDrawData* data = queryExtension<IPlayerTextDrawData>(player);
+	IPlayerTextDrawData* data = queryExtension<IPlayerTextDrawData>(static_cast<IPlayer*>(player));
 	data->endSelection();
-	return true;
 }
 
-OMPRS_API(bool, SendClientCheck(int playerid, int actionType, int address, int offset, int count))
+OMPRS_API(void, SendClientCheck(void* player, int actionType, int address, int offset, int count))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->sendClientCheck(actionType, address, offset, count);
-	return true;
+	static_cast<IPlayer*>(player)->sendClientCheck(actionType, address, offset, count);
 }
 
-OMPRS_API(bool, SpawnPlayer(int playerid))
+OMPRS_API(void, SpawnPlayer(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->spawn();
-	return true;
+	static_cast<IPlayer*>(player)->spawn();
 }
 
-OMPRS_API(int, gpci(int playerid, StringView* output))
+OMPRS_API(void, gpci(void* player, StringView* output))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-
-	auto serial = player->getSerial();
-	*output = serial;
-
-	return serial.length();
+	*output =  static_cast<IPlayer*>(player)->getSerial();
 }
 
-OMPRS_API(bool, IsPlayerAdmin(int playerid))
+OMPRS_API(bool, IsPlayerAdmin(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	IPlayerConsoleData* data = queryExtension<IPlayerConsoleData>(player);
+	IPlayerConsoleData* data = queryExtension<IPlayerConsoleData>(static_cast<IPlayer*>(player));
 	return data->hasConsoleAccess();
 }
 
-OMPRS_API(bool, Kick(int playerid))
+OMPRS_API(void, Kick(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->kick();
-	return true;
+	static_cast<IPlayer*>(player)->kick();
 }
 
-OMPRS_API(bool, GameTextForPlayer(int playerid, char const* msg, int time, int style))
+OMPRS_API(void, GameTextForPlayer(void* player, StringView msg, int time, int style))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-
-	auto string = std::string(msg);
-	if (string.empty())
-	{
-		return false;
-	}
-
-	player->sendGameText(string, Milliseconds(time), style);
-
-	return true;
+	static_cast<IPlayer*>(player)->sendGameText(msg, Milliseconds(time), style);
 }
 
-OMPRS_API(bool, HideGameTextForPlayer(int playerid, int style))
+OMPRS_API(void, HideGameTextForPlayer(void* player, int style))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->hideGameText(style);
-	return true;
+	static_cast<IPlayer*>(player)->hideGameText(style);
 }
 
-OMPRS_API(bool, HasGameText(int playerid, int style))
+OMPRS_API(bool, HasGameText(void* player, int style))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	return player->hasGameText(style);
+	return static_cast<IPlayer*>(player)->hasGameText(style);
 }
 
-OMPRS_API(bool, GetGameText(int playerid, int style, StringView* message, int time, int remaining))
+OMPRS_API(bool, GetGameText(void* player, int style, StringView* message, int* time, int* remaining))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
 	Milliseconds mt;
 	Milliseconds mr;
 	StringView ms;
 
-	if (player->getGameText(style, ms, mt, mr))
+	if (static_cast<IPlayer*>(player)->getGameText(style, ms, mt, mr))
 	{
 		*message = ms;
-		time = (int)mt.count();
-		remaining = (int)mr.count();
+		*time = (int)mt.count();
+		*remaining = (int)mr.count();
 		return true;
 	}
 
 	return false;
 }
 
-OMPRS_API(bool, Ban(int playerid))
+OMPRS_API(void, Ban(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->ban();
-	return true;
+	static_cast<IPlayer*>(player)->ban();
 }
 
-OMPRS_API(bool, BanEx(int playerid, char const* msg))
+OMPRS_API(void, BanEx(void* player, StringView msg))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->ban(msg);
-	return true;
+	static_cast<IPlayer*>(player)->ban(msg);
 }
 
-OMPRS_API(bool, SendDeathMessageToPlayer(int playerid, int killerid, int killeeid, int weapon))
+OMPRS_API(void, SendDeathMessageToPlayer(void* player, void* killer, void* killee, int weapon))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	GET_PLAYER_CHECKED(killer, killerid, false);
-	auto killee = OMPRSComponent::Get()->GetPlayer(killeeid);
-
-	if (killee != nullptr)
+	
+	
+	if (static_cast<IPlayer*>(killee) != nullptr)
 	{
-		player->sendDeathMessage(*killee, killer, weapon);
+		static_cast<IPlayer*>(player)->sendDeathMessage(*static_cast<IPlayer*>(killee), static_cast<IPlayer*> (killer), weapon);
 	}
 	else
 	{
-		player->sendEmptyDeathMessage();
+		static_cast<IPlayer*>(player)->sendEmptyDeathMessage();
 	}
 
-	return true;
 }
 
-OMPRS_API(bool, SendPlayerMessageToPlayer(int playerid, int senderid, StringView message))
+OMPRS_API(void, SendPlayerMessageToPlayer(void* player, void* sender, StringView message))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	GET_PLAYER_CHECKED(sender, senderid, false);
-	player->sendChatMessage(*sender, message);
-	return true;
+	static_cast<IPlayer*>(player)->sendChatMessage(*static_cast<IPlayer*>(sender), message);
 }
 
-OMPRS_API(bool, SendPlayerMessageToPlayerf(int playerid, int senderid, StringView message))
+OMPRS_API(void, GetPlayerVersion(void* player, StringView* output))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	GET_PLAYER_CHECKED(sender, senderid, false);
-	player->sendChatMessage(*sender, message);
-	return true;
+	*output = static_cast<IPlayer*>(player)->getClientVersionName();	
 }
 
-OMPRS_API(int, GetPlayerVersion(int playerid, StringView* version))
+OMPRS_API(int, GetPlayerSkillLevel(void* player, int skill))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	auto player_version = player->getClientVersionName();
-	*version = player_version;
-	return player_version.length();
-}
-
-OMPRS_API(int, GetPlayerSkillLevel(int playerid, int skill))
-{
-	GET_PLAYER_CHECKED(player, playerid, 0);
-	auto& skills = player->getSkillLevels();
+	auto& skills = static_cast<IPlayer*>(player)->getSkillLevels();
 
 	if (skill >= 11 || skill < 0)
 	{
@@ -1272,83 +810,40 @@ OMPRS_API(int, GetPlayerSkillLevel(int playerid, int skill))
 	return skills[skill];
 }
 
-OMPRS_API(float, GetPlayerZAim(int playerid))
+OMPRS_API(int, GetPlayerSpectateID(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, -1);
-	return player->getAimData().aimZ;
+	return static_cast<IPlayer*>(player)->getSpectateData().spectateID;
 }
 
-OMPRS_API(bool, GetPlayerSurfingOffsets(int playerid, float* x, float* y, float* z))
+OMPRS_API(PlayerSpectateData, GetPlayerSpectateData(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	const PlayerSurfingData& data = player->getSurfingData();
-
-	if (data.type != PlayerSurfingData::Type::None)
-	{
-		*x = data.offset.x;
-		*y = data.offset.y;
-		*z = data.offset.z;
-	}
-
-	return true;
+	return static_cast<IPlayer*>(player)->getSpectateData();
 }
 
-OMPRS_API(bool, GetPlayerRotationQuat(int playerid, float* w, float* x, float* y, float* z))
+OMPRS_API(int, GetPlayerRawIp(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	glm::quat rotQuat = player->getRotation().q;
-
-	*w = rotQuat.w;
-	*x = rotQuat.x;
-	*y = rotQuat.y;
-	*z = rotQuat.z;
-
-	return true;
+	return static_cast<IPlayer*>(player)->getNetworkData().networkID.address.v4;
 }
 
-OMPRS_API(int, GetPlayerSpectateID(int playerid))
+OMPRS_API(void, SetPlayerGravity(void* player, float gravity))
 {
-	GET_PLAYER_CHECKED(player, playerid, INVALID_PLAYER_ID);
-	return player->getSpectateData().spectateID;
+	static_cast<IPlayer*>(player)->setGravity(gravity);
 }
 
-OMPRS_API(int, GetPlayerSpectateType(int playerid))
+OMPRS_API(float, GetPlayerGravity(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, INVALID_PLAYER_ID);
-	return int(player->getSpectateData().type);
+	return static_cast<IPlayer*>(player)->getGravity();
 }
 
-OMPRS_API(int, GetPlayerRawIp(int playerid))
+OMPRS_API(void, SetPlayerAdmin(void* player, bool set))
 {
-	GET_PLAYER_CHECKED(player, playerid, 0);
-	return player->getNetworkData().networkID.address.v4;
-}
-
-OMPRS_API(bool, SetPlayerGravity(int playerid, float gravity))
-{
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->setGravity(gravity);
-	return true;
-}
-
-OMPRS_API(float, GetPlayerGravity(int playerid))
-{
-	GET_PLAYER_CHECKED(player, playerid, 0.0);
-	return player->getGravity();
-}
-
-OMPRS_API(bool, SetPlayerAdmin(int playerid, bool set))
-{
-	GET_PLAYER_CHECKED(player, playerid, false);
-	IPlayerConsoleData* data = queryExtension<IPlayerConsoleData>(player);
+	IPlayerConsoleData* data = queryExtension<IPlayerConsoleData>(static_cast<IPlayer*>(player));
 	data->setConsoleAccessibility(set);
-	return true;
 }
 
-OMPRS_API(bool, IsPlayerSpawned(int playerid))
+OMPRS_API(bool, IsPlayerSpawned(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	PlayerState state = player->getState();
+	PlayerState state = static_cast<IPlayer*>(player)->getState();
 
 	switch (state)
 	{
@@ -1364,85 +859,71 @@ OMPRS_API(bool, IsPlayerSpawned(int playerid))
 	}
 }
 
-OMPRS_API(bool, IsPlayerControllable(int playerid))
+OMPRS_API(bool, IsPlayerControllable(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	return player->getControllable();
+	return static_cast<IPlayer*>(player)->getControllable();
 }
 
-OMPRS_API(bool, IsPlayerCameraTargetEnabled(int playerid))
+OMPRS_API(bool, IsPlayerCameraTargetEnabled(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	return player->hasCameraTargeting();
+	return static_cast<IPlayer*>(player)->hasCameraTargeting();
 }
 
-OMPRS_API(bool, TogglePlayerGhostMode(int playerid, bool toggle))
+OMPRS_API(void, TogglePlayerGhostMode(void* player, bool toggle))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->toggleGhostMode(toggle);
-	return true;
+	static_cast<IPlayer*>(player)->toggleGhostMode(toggle);
 }
 
-OMPRS_API(bool, GetPlayerGhostMode(int playerid))
+OMPRS_API(bool, GetPlayerGhostMode(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	return player->isGhostModeEnabled();
+	return static_cast<IPlayer*>(player)->isGhostModeEnabled();
 }
 
-OMPRS_API(bool, AllowPlayerWeapons(int playerid, bool allow))
+OMPRS_API(void, AllowPlayerWeapons(void* player, bool allow))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	player->allowWeapons(allow);
-	return true;
+	static_cast<IPlayer*>(player)->allowWeapons(allow);
 }
 
-OMPRS_API(bool, ArePlayerWeaponsAllowed(int playerid))
+OMPRS_API(bool, ArePlayerWeaponsAllowed(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	return player->areWeaponsAllowed();
+	return static_cast<IPlayer*>(player)->areWeaponsAllowed();
 }
 
-OMPRS_API(int, IsPlayerUsingOfficialClient(int playerid))
+OMPRS_API(bool, IsPlayerUsingOfficialClient(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	return player->isUsingOfficialClient();
+	return static_cast<IPlayer*>(player)->isUsingOfficialClient();
 }
 
-OMPRS_API(int, GetPlayerAnimFlags(int playerid))
+OMPRS_API(PlayerAnimationData, GetPlayerAnimationData(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, -1);
-	PlayerAnimationData data = player->getAnimationData();
-	return data.flags;
+	return static_cast<IPlayer*>(player)->getAnimationData();
 }
 
-OMPRS_API(int, GetPlayerAnimationFlags(int playerid))
-{
-	GET_PLAYER_CHECKED(player, playerid, -1);
 
-	return player->getAnimationData().flags;
-}
-
-OMPRS_API(bool, IsPlayerInDriveByMode(int playerid))
+OMPRS_API(bool, IsPlayerInDriveByMode(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	IPlayerVehicleData* data = queryExtension<IPlayerVehicleData>(player);
+	IPlayerVehicleData* data = queryExtension<IPlayerVehicleData>(static_cast<IPlayer*>(player));
 	return data->isInDriveByMode();
 }
 
-OMPRS_API(bool, IsPlayerCuffed(int playerid))
+OMPRS_API(bool, IsPlayerCuffed(void* player))
 {
-	GET_PLAYER_CHECKED(player, playerid, false);
-	if (player->getState() == PlayerState_OnFoot)
+	if (static_cast<IPlayer*>(player)->getState() == PlayerState_OnFoot)
 	{
-		return player->getAction() == SpecialAction_Cuffed;
+		return static_cast<IPlayer*>(player)->getAction() == SpecialAction_Cuffed;
 	}
-	else if (player->getState() == PlayerState_Passenger)
+	else if (static_cast<IPlayer*>(player)->getState() == PlayerState_Passenger)
 	{
-		IPlayerVehicleData* data = queryExtension<IPlayerVehicleData>(player);
+		IPlayerVehicleData* data = queryExtension<IPlayerVehicleData>(static_cast<IPlayer*>(player));
 		if (data)
 		{
 			return data->isCuffed();
 		}
 	}
 	return false;
+}
+
+OMPRS_API(void*, GetPlayersPool(void))
+{
+	return OMPRSComponent::Get()->GetPlayers();
 }
