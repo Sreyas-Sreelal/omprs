@@ -459,9 +459,10 @@ OMPRS_API(void, TogglePlayerSpectating(void* player, bool enable))
 	static_cast<IPlayer*>(player)->setSpectating(enable);
 }
 
-OMPRS_API(void, ApplyAnimation(void* player, AnimationData animationData, PlayerAnimationSyncType sync))
+OMPRS_API(void, ApplyAnimation(void* player, StringView animlib, StringView animname, float delta, bool loop, bool lockX, bool lockY, bool freeze, uint32_t time, PlayerAnimationSyncType sync))
 {
-	static_cast<IPlayer*>(player)->applyAnimation(animationData, sync);
+	const AnimationData animationData(delta, loop, lockX, lockY, freeze, time, animlib, animname);
+	static_cast<IPlayer*>(player)->applyAnimation(animationData, PlayerAnimationSyncType(sync));
 }
 
 OMPRS_API(void, GetAnimationName(int index, StringView* lib, StringView* name))
