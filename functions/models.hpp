@@ -38,36 +38,6 @@ OMPRS_API(bool, AddSimpleModelTimed(int virtualworld, int baseid, int newid, Str
 	return models->addCustomModel(ModelType::Object, newid, baseid, dffname, txdname, virtualworld, timeon, timeoff);
 }
 
-OMPRS_API(int, GetPlayerCustomSkin(void* player))
-{
-	IPlayerCustomModelsData* data = queryExtension<IPlayerCustomModelsData>(static_cast<IPlayer*>(player));
-
-	if (!data)
-	{
-		return 0;
-	}
-
-	return data->getCustomSkin();
-}
-
-OMPRS_API(bool, RedirectDownload(void* player, char const* url))
-{
-	IPlayerCustomModelsData* data = queryExtension<IPlayerCustomModelsData>(static_cast<IPlayer*>(player));
-
-	if (!data)
-	{
-		return false;
-	}
-
-	if (!data->sendDownloadUrl(url))
-	{
-		OMPRSComponent::Get()->GetCore()->logLn(LogLevel::Warning, "This native can be used only within OnPlayerRequestDownload callback.");
-		return false;
-	}
-
-	return true;
-}
-
 OMPRS_API(bool, FindModelFileNameFromCRC(int crc, StringView* output))
 {
 	auto models = OMPRSComponent::Get()->GetCustomModels();

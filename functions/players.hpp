@@ -923,6 +923,36 @@ OMPRS_API(bool, IsPlayerCuffed(void* player))
 	return false;
 }
 
+OMPRS_API(int, GetPlayerCustomSkin(void* player))
+{
+	IPlayerCustomModelsData* data = queryExtension<IPlayerCustomModelsData>(static_cast<IPlayer*>(player));
+
+	if (!data)
+	{
+		return 0;
+	}
+
+	return data->getCustomSkin();
+}
+
+OMPRS_API(bool, RedirectDownload(void* player, char const* url))
+{
+	IPlayerCustomModelsData* data = queryExtension<IPlayerCustomModelsData>(static_cast<IPlayer*>(player));
+
+	if (!data)
+	{
+		return false;
+	}
+
+	if (!data->sendDownloadUrl(url))
+	{
+		OMPRSComponent::Get()->GetCore()->logLn(LogLevel::Warning, "This method can be used only within OnPlayerRequestDownload callback.");
+		return false;
+	}
+
+	return true;
+}
+
 OMPRS_API(void*, GetPlayersPool(void))
 {
 	return OMPRSComponent::Get()->GetPlayers();
