@@ -20,7 +20,7 @@ private:
 	CALLBACK_DECL(void, OnPlayerDeath, void*, void*, int);
 	CALLBACK_DECL(void, OnPlayerTakeDamage, void*, void*, float, int, int);
 	CALLBACK_DECL(void, OnPlayerGiveDamage, void*, void*, float, int, int);
-	CALLBACK_DECL(void, OnPlayerClickMap, void*, float, float, float);
+	CALLBACK_DECL(void, OnPlayerClickMap, void*, Vector3);
 	CALLBACK_DECL(void, OnPlayerClickPlayer, void*, void*, int);
 	CALLBACK_DECL(void, OnClientCheckResponse, void*, int, int, int);
 	CALLBACK_DECL(bool, OnPlayerUpdate, void*);
@@ -158,7 +158,7 @@ public:
 
 	void onPlayerClickMap(IPlayer& player, Vector3 pos)
 	{
-		EXEC_CALLBACK(OnPlayerClickMap, &player, pos.x, pos.y, pos.z);
+		EXEC_CALLBACK(OnPlayerClickMap, &player, pos);
 	}
 
 	void onPlayerClickPlayer(IPlayer& player, IPlayer& clicked, PlayerClickSource source)
