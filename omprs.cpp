@@ -2,6 +2,7 @@
 #include "types.hpp"
 #include "callbacks/players.hpp"
 #include "callbacks/models.hpp"
+#include "callbacks/actors.hpp"
 
 StringView OMPRSComponent::componentName() const
 {
@@ -64,6 +65,11 @@ void OMPRSComponent::onInit(IComponentList* components)
 	if (custommodels)
 	{
 		custommodels->getEventDispatcher().addEventHandler(ModelEvents::Get());
+	}
+
+	if (actors) 
+	{
+		actors->getEventDispatcher().addEventHandler(ActorEvents::Get());
 	}
 }
 
