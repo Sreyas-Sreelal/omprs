@@ -5,8 +5,8 @@
 struct ModelEvents : public PlayerModelsEventHandler, public Singleton<ModelEvents>
 {
 private:
-	CALLBACK_DECL(void,OnPlayerFinishedDownloading, int, int);
-	CALLBACK_DECL(bool,OnPlayerRequestDownload, int, int, int);
+	CALLBACK_DECL(void,OnPlayerFinishedDownloading, void*);
+	CALLBACK_DECL(bool,OnPlayerRequestDownload, void*, int, int);
 
 public:
 	ModelEvents()
@@ -17,12 +17,12 @@ public:
 	
 	void onPlayerFinishedDownloading(IPlayer& player) override
 	{
-		EXEC_CALLBACK(OnPlayerFinishedDownloading, player.getID(), player.getVirtualWorld());
+		EXEC_CALLBACK(OnPlayerFinishedDownloading, &player);
 	}
 
 	bool onPlayerRequestDownload(IPlayer& player, ModelDownloadType type, uint32_t checksum) override
 	{
-		EXEC_CALLBACK(OnPlayerRequestDownload, player.getID(), static_cast<int>(type), checksum);
+		EXEC_CALLBACK(OnPlayerRequestDownload, &player, static_cast<int>(type), checksum);
 		return true;
 	}
 };
