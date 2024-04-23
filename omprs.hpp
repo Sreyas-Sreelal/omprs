@@ -12,6 +12,7 @@
 #include <Server/Components/TextDraws/textdraws.hpp>
 #include <Server/Components/Console/console.hpp>
 #include <Server/Components/Checkpoints/checkpoints.hpp>
+#include<Server/Components/Classes/classes.hpp>
 
 class OMPRSComponent : public IComponent, public Singleton<OMPRSComponent>
 {
@@ -26,6 +27,7 @@ private:
 	IActorsComponent* actors = nullptr;
 	ICustomModelsComponent* custommodels = nullptr;
 	ICheckpointsComponent* checkpoints = nullptr;
+	IClassesComponent* classes = nullptr;
 
 	OMPRSCore* omprs_core = nullptr;
 
@@ -70,6 +72,8 @@ public:
 	IActorsComponent* GetActors();
 
 	ICustomModelsComponent* GetCustomModels();
+	
+	IClassesComponent* OMPRSComponent::GetClasses();
 
 	OMPRSCore* GetOMPRSCore();
 

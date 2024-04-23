@@ -8,6 +8,7 @@
 #include "functions/models.hpp"
 #include "functions/actors.hpp"
 #include "functions/checkpoints.hpp"
+#include "functions/classes.hpp"
 
 #include "callbacks/players.hpp"
 #include "callbacks/models.hpp"
