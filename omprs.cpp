@@ -3,6 +3,7 @@
 #include "callbacks/players.hpp"
 #include "callbacks/models.hpp"
 #include "callbacks/actors.hpp"
+#include "callbacks/checkpoints.hpp"
 
 StringView OMPRSComponent::componentName() const
 {
@@ -47,7 +48,8 @@ void OMPRSComponent::onInit(IComponentList* components)
 	players = &core_->getPlayers();
 	custommodels = componentList->queryComponent<ICustomModelsComponent>();
 	actors = componentList->queryComponent<IActorsComponent>();
-
+	checkpoints = componentList->queryComponent<ICheckpointsComponent>();
+	
 	if (players)
 	{
 		players->getPlayerConnectDispatcher().addEventHandler(PlayerEvents::Get());
@@ -70,6 +72,11 @@ void OMPRSComponent::onInit(IComponentList* components)
 	if (actors) 
 	{
 		actors->getEventDispatcher().addEventHandler(ActorEvents::Get());
+	}
+	
+	if (checkpoints)
+	{
+		checkpoints->getEventDispatcher().addEventHandler(CheckPointEvents::Get());
 	}
 }
 

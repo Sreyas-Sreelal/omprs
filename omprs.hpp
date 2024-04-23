@@ -11,6 +11,7 @@
 #include <Server/Components/CustomModels/custommodels.hpp>
 #include <Server/Components/TextDraws/textdraws.hpp>
 #include <Server/Components/Console/console.hpp>
+#include <Server/Components/Checkpoints/checkpoints.hpp>
 
 class OMPRSComponent : public IComponent, public Singleton<OMPRSComponent>
 {
@@ -24,6 +25,7 @@ private:
 	IVehiclesComponent* vehicles = nullptr;
 	IActorsComponent* actors = nullptr;
 	ICustomModelsComponent* custommodels = nullptr;
+	ICheckpointsComponent* checkpoints = nullptr;
 
 	OMPRSCore* omprs_core = nullptr;
 
