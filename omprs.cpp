@@ -5,6 +5,7 @@
 #include "callbacks/actors.hpp"
 #include "callbacks/checkpoints.hpp"
 #include "callbacks/classes.hpp"
+#include "callbacks/dialogs.hpp"
 
 StringView OMPRSComponent::componentName() const
 {
@@ -51,6 +52,7 @@ void OMPRSComponent::onInit(IComponentList* components)
 	actors = componentList->queryComponent<IActorsComponent>();
 	checkpoints = componentList->queryComponent<ICheckpointsComponent>();
 	classes = componentList->queryComponent<IClassesComponent>();
+	dialogs = componentList->queryComponent<IDialogsComponent>();
 
 	if (players)
 	{
@@ -84,6 +86,11 @@ void OMPRSComponent::onInit(IComponentList* components)
 	if (classes)
 	{
 		classes->getEventDispatcher().addEventHandler(ClassEvents::Get());
+	}
+
+	if (dialogs)
+	{
+		dialogs->getEventDispatcher().addEventHandler(DialogEvents::Get());
 	}
 }
 

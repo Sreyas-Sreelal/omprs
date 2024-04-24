@@ -9,6 +9,7 @@
 #include "functions/actors.hpp"
 #include "functions/checkpoints.hpp"
 #include "functions/classes.hpp"
+#include "functions/dialogs.hpp"
 
 #include "callbacks/players.hpp"
 #include "callbacks/models.hpp"

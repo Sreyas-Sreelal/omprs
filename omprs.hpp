@@ -13,6 +13,7 @@
 #include <Server/Components/Console/console.hpp>
 #include <Server/Components/Checkpoints/checkpoints.hpp>
 #include<Server/Components/Classes/classes.hpp>
+#include<Server/Components/Dialogs/dialogs.hpp>
 
 class OMPRSComponent : public IComponent, public Singleton<OMPRSComponent>
 {
@@ -28,6 +29,7 @@ private:
 	ICustomModelsComponent* custommodels = nullptr;
 	ICheckpointsComponent* checkpoints = nullptr;
 	IClassesComponent* classes = nullptr;
+	IDialogsComponent* dialogs = nullptr;
 
 	OMPRSCore* omprs_core = nullptr;
 
