@@ -954,7 +954,12 @@ OMPRS_API(bool, RedirectDownload(void* player, char const* url))
 	return true;
 }
 
-OMPRS_API(void*, GetPlayersPool(void))
+
+OMPRS_API(unsigned, GetPlayerID(void* player)) 
 {
-	return OMPRSComponent::Get()->GetPlayers();
+	if (player)
+	{
+		return static_cast<IPlayer*>(player)->getID();
+	}
+	return INVALID_PLAYER_ID;
 }
