@@ -12,8 +12,9 @@
 #include <Server/Components/TextDraws/textdraws.hpp>
 #include <Server/Components/Console/console.hpp>
 #include <Server/Components/Checkpoints/checkpoints.hpp>
-#include<Server/Components/Classes/classes.hpp>
-#include<Server/Components/Dialogs/dialogs.hpp>
+#include <Server/Components/Classes/classes.hpp>
+#include <Server/Components/Dialogs/dialogs.hpp>
+#include <Server/Components/GangZones/gangzones.hpp>
 
 class OMPRSComponent : public IComponent, public Singleton<OMPRSComponent>
 {
@@ -30,6 +31,7 @@ private:
 	ICheckpointsComponent* checkpoints = nullptr;
 	IClassesComponent* classes = nullptr;
 	IDialogsComponent* dialogs = nullptr;
+	IGangZonesComponent* gangzones = nullptr;
 
 	OMPRSCore* omprs_core = nullptr;
 
@@ -76,6 +78,8 @@ public:
 	ICustomModelsComponent* GetCustomModels();
 	
 	IClassesComponent* OMPRSComponent::GetClasses();
+
+	IGangZonesComponent* OMPRSComponent::GetGangZones();
 
 	OMPRSCore* GetOMPRSCore();
 

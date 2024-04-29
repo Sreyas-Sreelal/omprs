@@ -6,6 +6,7 @@
 #include "callbacks/checkpoints.hpp"
 #include "callbacks/classes.hpp"
 #include "callbacks/dialogs.hpp"
+#include "callbacks/gangzones.hpp"
 
 StringView OMPRSComponent::componentName() const
 {
@@ -53,6 +54,7 @@ void OMPRSComponent::onInit(IComponentList* components)
 	checkpoints = componentList->queryComponent<ICheckpointsComponent>();
 	classes = componentList->queryComponent<IClassesComponent>();
 	dialogs = componentList->queryComponent<IDialogsComponent>();
+	gangzones = componentList->queryComponent<IGangZonesComponent>();
 
 	if (players)
 	{
@@ -91,6 +93,11 @@ void OMPRSComponent::onInit(IComponentList* components)
 	if (dialogs)
 	{
 		dialogs->getEventDispatcher().addEventHandler(DialogEvents::Get());
+	}
+
+	if (gangzones)
+	{
+		gangzones->getEventDispatcher().addEventHandler(GangZoneEvents::Get());
 	}
 }
 
@@ -148,6 +155,11 @@ ICustomModelsComponent* OMPRSComponent::GetCustomModels()
 IClassesComponent* OMPRSComponent::GetClasses()
 {
 	return classes;
+}
+
+IGangZonesComponent* OMPRSComponent::GetGangZones()
+{
+	return gangzones;
 }
 
 OMPRSCore* OMPRSComponent::GetOMPRSCore()
