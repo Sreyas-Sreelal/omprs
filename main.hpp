@@ -11,6 +11,4 @@
 #include "functions/classes.hpp"
 #include "functions/dialogs.hpp"
 #include "functions/gangzones.hpp"
-
-#include "callbacks/players.hpp"
-#include "callbacks/models.hpp"
+#include "functions/menus.hpp"

@@ -7,6 +7,7 @@
 #include "callbacks/classes.hpp"
 #include "callbacks/dialogs.hpp"
 #include "callbacks/gangzones.hpp"
+#include "callbacks/menus.hpp"
 
 StringView OMPRSComponent::componentName() const
 {
@@ -55,6 +56,7 @@ void OMPRSComponent::onInit(IComponentList* components)
 	classes = componentList->queryComponent<IClassesComponent>();
 	dialogs = componentList->queryComponent<IDialogsComponent>();
 	gangzones = componentList->queryComponent<IGangZonesComponent>();
+	menus = componentList->queryComponent<IMenusComponent>();
 
 	if (players)
 	{
@@ -98,6 +100,11 @@ void OMPRSComponent::onInit(IComponentList* components)
 	if (gangzones)
 	{
 		gangzones->getEventDispatcher().addEventHandler(GangZoneEvents::Get());
+	}
+
+	if (menus)
+	{
+		menus->getEventDispatcher().addEventHandler(MenuEvents::Get());
 	}
 }
 
@@ -160,6 +167,11 @@ IClassesComponent* OMPRSComponent::GetClasses()
 IGangZonesComponent* OMPRSComponent::GetGangZones()
 {
 	return gangzones;
+}
+
+IMenusComponent* OMPRSComponent::GetMenus()
+{
+	return menus;
 }
 
 OMPRSCore* OMPRSComponent::GetOMPRSCore()

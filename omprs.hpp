@@ -15,6 +15,7 @@
 #include <Server/Components/Classes/classes.hpp>
 #include <Server/Components/Dialogs/dialogs.hpp>
 #include <Server/Components/GangZones/gangzones.hpp>
+#include <Server/Components/Menus/menus.hpp>
 
 class OMPRSComponent : public IComponent, public Singleton<OMPRSComponent>
 {
@@ -32,6 +33,7 @@ private:
 	IClassesComponent* classes = nullptr;
 	IDialogsComponent* dialogs = nullptr;
 	IGangZonesComponent* gangzones = nullptr;
+	IMenusComponent* menus = nullptr;
 
 	OMPRSCore* omprs_core = nullptr;
 
@@ -80,7 +82,9 @@ public:
 	IClassesComponent* OMPRSComponent::GetClasses();
 
 	IGangZonesComponent* OMPRSComponent::GetGangZones();
-
+	
+	IMenusComponent* OMPRSComponent::GetMenus();
+	
 	OMPRSCore* GetOMPRSCore();
 
 	inline IPlayer* GetPlayer(int playerid)
