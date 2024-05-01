@@ -12,3 +12,4 @@
 #include "functions/dialogs.hpp"
 #include "functions/gangzones.hpp"
 #include "functions/menus.hpp"
+#include "functions/objects.hpp"
