@@ -34,6 +34,7 @@ private:
 	IDialogsComponent* dialogs = nullptr;
 	IGangZonesComponent* gangzones = nullptr;
 	IMenusComponent* menus = nullptr;
+	ITextDrawsComponent* textdraws = nullptr;
 
 	OMPRSCore* omprs_core = nullptr;
 
@@ -84,6 +85,8 @@ public:
 	IGangZonesComponent* OMPRSComponent::GetGangZones();
 	
 	IMenusComponent* OMPRSComponent::GetMenus();
+
+	ITextDrawsComponent* OMPRSComponent::GetTextDraws();
 	
 	OMPRSCore* GetOMPRSCore();
 

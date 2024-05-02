@@ -14,3 +14,4 @@
 #include "functions/menus.hpp"
 #include "functions/objects.hpp"
 #include "functions/pickups.hpp"
+#include "functions/textdraws.hpp"
