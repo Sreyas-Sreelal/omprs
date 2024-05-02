@@ -13,3 +13,4 @@
 #include "functions/gangzones.hpp"
 #include "functions/menus.hpp"
 #include "functions/objects.hpp"
+#include "functions/pickups.hpp"
