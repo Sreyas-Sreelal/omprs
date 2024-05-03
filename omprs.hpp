@@ -7,6 +7,10 @@
 #include <Server/Components/Objects/objects.hpp>
 #include <Server/Components/TextLabels/textlabels.hpp>
 #include <Server/Components/Vehicles/vehicles.hpp>
+#include <Server/Components/Vehicles/vehicle_components.hpp>
+#include <Server/Components/Vehicles/vehicle_colours.hpp>
+#include <Server/Components/Vehicles/vehicle_models.hpp>
+#include <Server/Components/Vehicles/vehicle_seats.hpp>
 #include <Server/Components/Actors/actors.hpp>
 #include <Server/Components/CustomModels/custommodels.hpp>
 #include <Server/Components/TextDraws/textdraws.hpp>

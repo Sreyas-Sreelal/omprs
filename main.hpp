@@ -16,3 +16,4 @@
 #include "functions/pickups.hpp"
 #include "functions/textdraws.hpp"
 #include "functions/textlabels.hpp"
+#include "functions/vehicles.hpp"
