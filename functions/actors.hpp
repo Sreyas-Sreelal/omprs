@@ -196,3 +196,17 @@ OMPRS_API(IActorsComponent*, GetActorsComponent(void))
 {
 	return OMPRSComponent::Get()->GetActors();
 }
+
+OMPRS_API(unsigned, GetActorID(void* actor))
+{
+	if (actor)
+	{
+		return static_cast<IActor*>(actor)->getID();
+	}
+	return INVALID_ACTOR_ID;
+}
+
+OMPRS_API(void*, GetActorFromID(int actorid))
+{
+	return OMPRSComponent::Get()->GetActor(actorid);
+}
