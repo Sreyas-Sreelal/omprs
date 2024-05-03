@@ -12,6 +12,7 @@
 #include "callbacks/pickups.hpp"
 #include "callbacks/textdraws.hpp"
 #include "callbacks/vehicles.hpp"
+#include "callbacks/utils.hpp"
 
 StringView OMPRSComponent::componentName() const
 {
@@ -66,6 +67,7 @@ void OMPRSComponent::onInit(IComponentList* components)
 	textdraws = componentList->queryComponent<ITextDrawsComponent>();
 	textlabels = componentList->queryComponent<ITextLabelsComponent>();
 	vehicles = componentList->queryComponent<IVehiclesComponent>();
+	console = componentList->queryComponent<IConsoleComponent>();
 
 	if (players)
 	{
@@ -134,6 +136,11 @@ void OMPRSComponent::onInit(IComponentList* components)
 	if (vehicles)
 	{
 		vehicles->getEventDispatcher().addEventHandler(VehicleEvents::Get());
+	}
+
+	if (console) 
+	{
+		console->getEventDispatcher().addEventHandler(CoreEvents::Get());
 	}
 }
 
@@ -208,6 +215,10 @@ ITextDrawsComponent* OMPRSComponent::GetTextDraws()
 	return textdraws;
 }
 
+IConsoleComponent* OMPRSComponent::GetConsole()
+{
+	return console;
+}
 
 OMPRSCore* OMPRSComponent::GetOMPRSCore()
 {
