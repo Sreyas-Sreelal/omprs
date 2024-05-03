@@ -63,6 +63,7 @@ void OMPRSComponent::onInit(IComponentList* components)
 	objects = componentList->queryComponent<IObjectsComponent>();
 	pickups = componentList->queryComponent<IPickupsComponent>();
 	textdraws = componentList->queryComponent<ITextDrawsComponent>();
+	textlabels = componentList->queryComponent<ITextLabelsComponent>();
 
 	if (players)
 	{

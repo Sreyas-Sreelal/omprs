@@ -15,3 +15,4 @@
 #include "functions/objects.hpp"
 #include "functions/pickups.hpp"
 #include "functions/textdraws.hpp"
+#include "functions/textlabels.hpp"
