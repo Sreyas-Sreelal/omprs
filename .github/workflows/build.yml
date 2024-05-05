@@ -177,7 +177,7 @@ jobs:
           version=${{ steps.vars.outputs.build_version }}
           artifact_name="omprs-linux-${{ matrix.arch }}-${version}"
           echo "artifact_name=${artifact_name}" >> $GITHUB_OUTPUT
-          cd docker/build/*
+          cd docker/build
           sudo tar -cJvf "${artifact_name}.tar.xz" "libomprs.so"
 
       - name: Upload build artifacts
