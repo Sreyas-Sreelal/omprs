@@ -104,7 +104,7 @@ jobs:
           artifact_name="omprs-win-${{ matrix.arch }}-${version}"
           echo "artifact_name=${artifact_name}" >> $GITHUB_OUTPUT
           cd build/*
-          powershell -NoLogo -NoProfile -Command Compress-Archive -DestinationPath "${artifact_name}.zip"
+          powershell -NoLogo -NoProfile -Command Compress-Archive -DestinationPath "${artifact_name}.zip" -Path "omprs.dll"
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
