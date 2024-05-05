@@ -9,7 +9,6 @@ on:
       - "**.hpp"
       - "**.cpp"
       - "**.h"
-      - "**.c"
       - "**CMakeLists.txt"
       - "**.cmake"
       - ".github/workflows/build.yml"
