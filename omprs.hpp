@@ -85,15 +85,15 @@ public:
 
 	ICustomModelsComponent* GetCustomModels();
 	
-	IClassesComponent* OMPRSComponent::GetClasses();
+	IClassesComponent* GetClasses();
 
-	IGangZonesComponent* OMPRSComponent::GetGangZones();
+	IGangZonesComponent* GetGangZones();
 	
-	IMenusComponent* OMPRSComponent::GetMenus();
+	IMenusComponent* GetMenus();
 
-	ITextDrawsComponent* OMPRSComponent::GetTextDraws();
+	ITextDrawsComponent* GetTextDraws();
 	
-	IConsoleComponent* OMPRSComponent::GetConsole();
+	IConsoleComponent* GetConsole();
 	
 	OMPRSCore* GetOMPRSCore();
 
