@@ -54,44 +54,44 @@ public:
 		EXEC_CALLBACK(OnPlayerConnect, &player);
 	}
 
-	void onIncomingConnection(IPlayer& player, StringView ipAddress, unsigned short port)
+	void onIncomingConnection(IPlayer& player, StringView ipAddress, unsigned short port) override
 	{
 		EXEC_CALLBACK(OnIncomingConnection, &player, ipAddress.to_string().c_str(), port);
 	}
 
-	void onPlayerDisconnect(IPlayer& player, PeerDisconnectReason reason)
+	void onPlayerDisconnect(IPlayer& player, PeerDisconnectReason reason) override
 	{
 		EXEC_CALLBACK(OnPlayerDisconnect, &player, reason);
 	}
 
-	void onPlayerStreamIn(IPlayer& player, IPlayer& forPlayer)
+	void onPlayerStreamIn(IPlayer& player, IPlayer& forPlayer) override
 	{
 		EXEC_CALLBACK(OnPlayerStreamIn, &player, &forPlayer);
 	}
 
-	void onPlayerStreamOut(IPlayer& player, IPlayer& forPlayer)
+	void onPlayerStreamOut(IPlayer& player, IPlayer& forPlayer) override
 	{
 		EXEC_CALLBACK(OnPlayerStreamOut, &player, &forPlayer);
 	}
 
-	bool onPlayerRequestSpawn(IPlayer& player)
+	bool onPlayerRequestSpawn(IPlayer& player) override
 	{
 		EXEC_CALLBACK(OnPlayerRequestSpawn, &player);
 		return true;
 	}
 
-	void onPlayerSpawn(IPlayer& player)
+	void onPlayerSpawn(IPlayer& player) override
 	{
 		EXEC_CALLBACK(OnPlayerSpawn, &player);
 	}
 
-	bool onPlayerText(IPlayer& player, StringView message)
+	bool onPlayerText(IPlayer& player, StringView message) override
 	{
 		EXEC_CALLBACK(OnPlayerText, &player, message.to_string().c_str());
 		return true;
 	}
 
-	bool onPlayerCommandText(IPlayer& player, StringView message)
+	bool onPlayerCommandText(IPlayer& player, StringView message) override
 	{
 		EXEC_CALLBACK(OnPlayerCommandText, &player, message.to_string().c_str());
 		return false;
@@ -126,52 +126,52 @@ public:
 
 	// void onPlayerNameChange(IPlayer& player, StringView oldName) { }
 
-	void onPlayerInteriorChange(IPlayer& player, unsigned newInterior, unsigned oldInterior)
+	void onPlayerInteriorChange(IPlayer& player, unsigned newInterior, unsigned oldInterior) override
 	{
 		EXEC_CALLBACK(OnPlayerInteriorChange, &player, newInterior, oldInterior);
 	}
 
-	void onPlayerStateChange(IPlayer& player, PlayerState newState, PlayerState oldState)
+	void onPlayerStateChange(IPlayer& player, PlayerState newState, PlayerState oldState) override
 	{
 		EXEC_CALLBACK(OnPlayerStateChange, &player, newState, oldState);
 	}
 
-	void onPlayerKeyStateChange(IPlayer& player, uint32_t newKeys, uint32_t oldKeys)
+	void onPlayerKeyStateChange(IPlayer& player, uint32_t newKeys, uint32_t oldKeys) override
 	{
 		EXEC_CALLBACK(OnPlayerKeyStateChange, &player, newKeys, oldKeys);
 	}
 
-	void onPlayerDeath(IPlayer& player, IPlayer* killer, int reason)
+	void onPlayerDeath(IPlayer& player, IPlayer* killer, int reason) override
 	{
 		EXEC_CALLBACK(OnPlayerDeath, &player, killer, reason);
 	}
 
-	void onPlayerTakeDamage(IPlayer& player, IPlayer* from, float amount, unsigned weapon, BodyPart part)
+	void onPlayerTakeDamage(IPlayer& player, IPlayer* from, float amount, unsigned weapon, BodyPart part) override
 	{
 		EXEC_CALLBACK(OnPlayerTakeDamage, &player, from, amount, weapon, part);
 	}
 
-	void onPlayerGiveDamage(IPlayer& player, IPlayer& to, float amount, unsigned weapon, BodyPart part)
+	void onPlayerGiveDamage(IPlayer& player, IPlayer& to, float amount, unsigned weapon, BodyPart part) override
 	{
 		EXEC_CALLBACK(OnPlayerGiveDamage, &player, &to, amount, weapon, part);
 	}
 
-	void onPlayerClickMap(IPlayer& player, Vector3 pos)
+	void onPlayerClickMap(IPlayer& player, Vector3 pos) override
 	{
 		EXEC_CALLBACK(OnPlayerClickMap, &player, pos);
 	}
 
-	void onPlayerClickPlayer(IPlayer& player, IPlayer& clicked, PlayerClickSource source)
+	void onPlayerClickPlayer(IPlayer& player, IPlayer& clicked, PlayerClickSource source) override
 	{
 		EXEC_CALLBACK(OnPlayerClickPlayer, &player, &clicked, source);
 	}
 
-	void onClientCheckResponse(IPlayer& player, int actionType, int address, int results)
+	void onClientCheckResponse(IPlayer& player, int actionType, int address, int results) override
 	{
 		EXEC_CALLBACK(OnClientCheckResponse, &player, actionType, address, results);
 	}
 
-	bool onPlayerUpdate(IPlayer& player, TimePoint now)
+	bool onPlayerUpdate(IPlayer& player, TimePoint now) override
 	{
 		EXEC_CALLBACK(OnPlayerUpdate, &player);
 		return true;
