@@ -246,7 +246,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: omprs-linux-${{ matrix.arch }}-${{ steps.vars.outputs.build_version }}
-        path: build/${{ steps.vars.outputs.build_config }}
+        path: build
         if-no-files-found: error
 
     - name: Try to save conan cache
