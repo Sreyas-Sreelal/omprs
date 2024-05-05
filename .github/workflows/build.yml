@@ -158,8 +158,7 @@ jobs:
       - name: Build
         run: |
           cd docker
-          CONFIG=${{ steps.vars.outputs.build_config }} UBUNTU_VERSION=${{ steps.vars.outputs.build_ubuntu_version }} BUILD_SHARED=${{ steps.vars.outputs.build_shared }} BUILD_SERVER=${{ steps.vars.outputs.build_server }} BUILD_TOOLS=${{ steps.vars.outputs.build_tools }} TARGET_BUILD_ARCH=${{ steps.vars.outputs.build_target_arch }}
-          bash build.sh
+          CONFIG=${{ steps.vars.outputs.build_config }} UBUNTU_VERSION=${{ steps.vars.outputs.build_ubuntu_version }} BUILD_SHARED=${{ steps.vars.outputs.build_shared }} BUILD_SERVER=${{ steps.vars.outputs.build_server }} BUILD_TOOLS=${{ steps.vars.outputs.build_tools }} TARGET_BUILD_ARCH=${{ steps.vars.outputs.build_target_arch }} ./build.sh
 
       - name: Try to save conan cache
         if: steps.conan-cache-restore.outputs.cache-hit != 'true'
