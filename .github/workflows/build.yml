@@ -184,7 +184,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.build.outputs.artifact_name }}
-          path: docker/build/${{ steps.vars.outputs.build_config }}/${{ steps.build.outputs.artifact_name }}.tar.xz
+          path: docker/build/${{ steps.build.outputs.artifact_name }}.tar.xz
           if-no-files-found: error
 
   build-arm-gnu:
