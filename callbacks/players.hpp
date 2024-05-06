@@ -24,6 +24,13 @@ private:
 	CALLBACK_DECL(void, OnPlayerClickPlayer, void*, void*, int);
 	CALLBACK_DECL(void, OnClientCheckResponse, void*, int, int, int);
 	CALLBACK_DECL(bool, OnPlayerUpdate, void*);
+	CALLBACK_DECL(bool, onPlayerShotMissed, void*, PlayerBulletData);
+	CALLBACK_DECL(bool, onPlayerShotPlayer, void*, void*, PlayerBulletData);
+	CALLBACK_DECL(bool, onPlayerShotVehicle, void*, void*, PlayerBulletData);
+	CALLBACK_DECL(bool, onPlayerShotObject, void*, void*, PlayerBulletData);
+	CALLBACK_DECL(bool, onPlayerShotPlayerObject, void*, void*, PlayerBulletData);
+	CALLBACK_DECL(void, onPlayerScoreChange, void*, int);
+	CALLBACK_DECL(void, onPlayerNameChange, void*, StringView);
 
 public:
 	PlayerEvents()
@@ -47,6 +54,13 @@ public:
 		INIT_CALLBACK(OnPlayerClickPlayer);
 		INIT_CALLBACK(OnClientCheckResponse);
 		INIT_CALLBACK(OnPlayerUpdate);
+		INIT_CALLBACK(onPlayerShotMissed);
+		INIT_CALLBACK(onPlayerShotPlayer);
+		INIT_CALLBACK(onPlayerShotVehicle);
+		INIT_CALLBACK(onPlayerShotObject);
+		INIT_CALLBACK(onPlayerShotPlayerObject);
+		INIT_CALLBACK(onPlayerScoreChange);
+		INIT_CALLBACK(onPlayerNameChange);
 	}
 
 	void onPlayerConnect(IPlayer& player) override
@@ -97,34 +111,45 @@ public:
 		return false;
 	}
 
-	// bool onPlayerShotMissed(IPlayer& player, const PlayerBulletData& bulletData)
-	//{
-	//	return true;
-	// }
+	bool onPlayerShotMissed(IPlayer& player, const PlayerBulletData& bulletData) override
+	{
+		EXEC_CALLBACK(onPlayerShotMissed, &player, bulletData);
+		return true;
+	}
 
-	// bool onPlayerShotPlayer(IPlayer& player, IPlayer& target, const PlayerBulletData& bulletData)
-	//{
-	//	return true;
-	// }
+	bool onPlayerShotPlayer(IPlayer& player, IPlayer& target, const PlayerBulletData& bulletData) override
+	{
+		EXEC_CALLBACK(onPlayerShotPlayer, &player, &target, bulletData);
+		return true;
+	}
 
-	// bool onPlayerShotVehicle(IPlayer& player, IVehicle& target, const PlayerBulletData& bulletData)
-	//{
-	//	return true;
-	// }
+	bool onPlayerShotVehicle(IPlayer& player, IVehicle& target, const PlayerBulletData& bulletData) override
+	{
+		EXEC_CALLBACK(onPlayerShotVehicle, &player, &target, bulletData);
+		return true;
+	}
 
-	// bool onPlayerShotObject(IPlayer& player, IObject& target, const PlayerBulletData& bulletData)
-	//{
-	//	return true;
-	// }
+	bool onPlayerShotObject(IPlayer& player, IObject& target, const PlayerBulletData& bulletData) override
+	{
+		EXEC_CALLBACK(onPlayerShotObject ,& player, &target, bulletData);
+		return true;
+	}
 
-	// bool onPlayerShotPlayerObject(IPlayer& player, IPlayerObject& target, const PlayerBulletData& bulletData)
-	//{
-	//	return true;
-	// }
+	bool onPlayerShotPlayerObject(IPlayer& player, IPlayerObject& target, const PlayerBulletData& bulletData) override
+	{
+		EXEC_CALLBACK(onPlayerShotPlayerObject,&player,&target,bulletData);
+		return true;
+	}
 
-	// void onPlayerScoreChange(IPlayer& player, int score) { }
+	void onPlayerScoreChange(IPlayer& player, int score) override 
+	{ 
+		EXEC_CALLBACK(onPlayerScoreChange, &player, score);
+	}
 
-	// void onPlayerNameChange(IPlayer& player, StringView oldName) { }
+	void onPlayerNameChange(IPlayer& player, StringView oldName) override 
+	{ 
+		EXEC_CALLBACK(onPlayerNameChange, &player, oldName);
+	}
 
 	void onPlayerInteriorChange(IPlayer& player, unsigned newInterior, unsigned oldInterior) override
 	{

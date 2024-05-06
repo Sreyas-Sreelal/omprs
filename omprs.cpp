@@ -75,7 +75,7 @@ void OMPRSComponent::onInit(IComponentList* components)
 		players->getPlayerStreamDispatcher().addEventHandler(PlayerEvents::Get());
 		players->getPlayerSpawnDispatcher().addEventHandler(PlayerEvents::Get());
 		players->getPlayerTextDispatcher().addEventHandler(PlayerEvents::Get());
-		//players->getPlayerShotDispatcher().addEventHandler(PlayerEvents::Get());
+		players->getPlayerShotDispatcher().addEventHandler(PlayerEvents::Get());
 		players->getPlayerChangeDispatcher().addEventHandler(PlayerEvents::Get());
 		players->getPlayerDamageDispatcher().addEventHandler(PlayerEvents::Get());
 		players->getPlayerClickDispatcher().addEventHandler(PlayerEvents::Get());
