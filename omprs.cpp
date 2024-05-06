@@ -51,7 +51,7 @@ void OMPRSComponent::reset()
 
 void OMPRSComponent::onInit(IComponentList* components)
 {
-	auto gm_symbol = core_->getConfig().getString("omprs.gamemode");
+	auto gm_symbol = core_->getConfig().getString("rust.gamemode");
 	omprs_core = new OMPRSCore(gm_symbol.to_string());
 	componentList = components;
 	players = &core_->getPlayers();
