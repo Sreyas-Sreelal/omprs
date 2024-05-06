@@ -64,7 +64,7 @@ OMPRS_API(void, GivePlayerMoney(void* player, int amount))
 	static_cast<IPlayer*>(player)->giveMoney(amount);
 }
 
-OMPRS_API(void, SetPlayerCameraLookAt(void* player,Vector3 pos, int cut))
+OMPRS_API(void, SetPlayerCameraLookAt(void* player, Vector3 pos, PlayerCameraCutType cut))
 {
 	static_cast<IPlayer*>(player)->setCameraLookAt(pos, cut);
 }
