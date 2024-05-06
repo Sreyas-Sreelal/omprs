@@ -37,7 +37,15 @@ void OMPRSComponent::onLoad(ICore* c)
 void OMPRSComponent::onReady()
 {
 	OnGameModeInit* entry_func = (OnGameModeInit*)omprs_core->get_callback_addr("Main");
-	(*entry_func)();
+	if(entry_func)
+	{
+		(*entry_func)();
+	}
+	else
+	{
+		core_->logLn(Error,"Unable to find entrypoint in the gamemode!");
+	}
+	
 }
 
 void OMPRSComponent::free()
