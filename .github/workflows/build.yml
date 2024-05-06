@@ -103,7 +103,7 @@ jobs:
           artifact_name="omprs-win-${{ matrix.arch }}-${version}"
           echo "artifact_name=${artifact_name}" >> $GITHUB_OUTPUT
           cd build/RelWithDebInfo
-          powershell -NoLogo -NoProfile -Command Compress-Archive -DestinationPath "${artifact_name}.zip" -Path "omprs.dll"
+          powershell -NoLogo -NoProfile -Command Compress-Archive -DestinationPath "${artifact_name}.zip" -Path "Rust.dll"
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
@@ -177,7 +177,7 @@ jobs:
           artifact_name="omprs-linux-${{ matrix.arch }}-${version}"
           echo "artifact_name=${artifact_name}" >> $GITHUB_OUTPUT
           cd docker/build
-          sudo tar -cJvf "${artifact_name}.tar.xz" "libomprs.so"
+          sudo tar -cJvf "${artifact_name}.tar.xz" "Rust.so"
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
