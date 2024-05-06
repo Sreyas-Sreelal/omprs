@@ -947,7 +947,7 @@ OMPRS_API(bool, RedirectDownload(void* player, char const* url))
 
 	if (!data->sendDownloadUrl(url))
 	{
-		OMPRSComponent::Get()->GetCore()->logLn(LogLevel::Warning, "This method can be used only within OnPlayerRequestDownload callback.");
+		OMPRSComponent::Get()->GetCore()->logLn(LogLevel::Warning, "This method can be used only within on_player_request_download callback.");
 		return false;
 	}
 
