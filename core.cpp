@@ -6,7 +6,7 @@ OMPRSCore::OMPRSCore(const std::string& gamemode_name)
 	proc_handle = LoadLibrary(("gamemodes\\" + gamemode_name + ".dll").c_str());
 #else
 	// overwrite dlopen flags set by open.mp
-	component_handle = dlopen("components/omprs.so", RTLD_GLOBAL | RTLD_NOW);
+	component_handle = dlopen("components/Rust.so", RTLD_GLOBAL | RTLD_NOW);
 
 	proc_handle = dlopen(("gamemodes/" + gamemode_name + ".so").c_str(), RTLD_GLOBAL | RTLD_NOW);
 #endif
