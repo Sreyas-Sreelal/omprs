@@ -226,6 +226,16 @@ OMPRS_API(int,GetObjectID(void* object))
 	return INVALID_OBJECT_ID;
 }
 
+OMPRS_API(void*, GetObjectFromID(int id))
+{
+	IObjectsComponent* component = OMPRSComponent::Get()->GetObjects();
+	if (component)
+	{
+		return component->get(id);
+	}
+	return nullptr;
+}
+
 // player object functions
 
 OMPRS_API(void*,CreatePlayerObject(void* player, int modelid, Vector3 position, Vector3 rotation, float drawDistance))
@@ -423,4 +433,14 @@ OMPRS_API(int, GetPlayerObjectID(void* object))
 		return static_cast<IPlayerObject*>(object)->getID();
 	}
 	return INVALID_OBJECT_ID;
+}
+
+OMPRS_API(void*, GetPlayerObjectFromID(void* player,int id))
+{
+	IPlayerObjectData* data = queryExtension<IPlayerObjectData>(static_cast<IPlayer*>(player));
+	if (data)
+	{
+		return data->get(id);
+	}
+	return nullptr;
 }
