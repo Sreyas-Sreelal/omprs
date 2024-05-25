@@ -349,9 +349,8 @@ OMPRS_API(int, GetConsoleVarAsString(StringView cvar, StringView* buffer))
 	return getConfigOptionAsString(cvar, buffer);
 }
 
-OMPRS_API(void,GetNetworkStats(StringView* output))
+OMPRS_API(NetworkStats,GetNetworkStats(void))
 {
-	std::stringstream stream;
 	NetworkStats stats;
 
 	for (INetwork* network : OMPRSComponent::Get()->GetCore()->getNetworks())
@@ -362,54 +361,12 @@ OMPRS_API(void,GetNetworkStats(StringView* output))
 		}
 	}
 
-	stream
-		<< "Server Ticks: " << OMPRSComponent::Get()->GetCore()->tickRate() << std::endl
-		<< "Messages in Send buffer: " << stats.messageSendBuffer << std::endl
-		<< "Messages sent: " << stats.messagesSent << std::endl
-		<< "Bytes sent: " << stats.totalBytesSent << std::endl
-		<< "Acks sent: " << stats.acknowlegementsSent << std::endl
-		<< "Acks in send buffer: " << stats.acknowlegementsPending << std::endl
-		<< "Messages waiting for ack: " << stats.messagesOnResendQueue << std::endl
-		<< "Messages resent: " << stats.messageResends << std::endl
-		<< "Bytes resent: " << stats.messagesTotalBytesResent << std::endl
-		<< "Packetloss: " << std::setprecision(1) << std::fixed << stats.packetloss << "%" << std::endl
-		<< "Messages received: " << stats.messagesReceived << std::endl
-		<< "Bytes received: " << stats.bytesReceived << std::endl
-		<< "Acks received: " << stats.acknowlegementsReceived << std::endl
-		<< "Duplicate acks received: " << stats.duplicateAcknowlegementsReceived << std::endl
-		<< "Inst. KBits per second: " << std::setprecision(1) << (stats.bitsPerSecond / 1000.0) << std::endl
-		<< "KBits per second sent: " << std::setprecision(1) << (stats.bpsSent / 1000.0) << std::endl
-		<< "KBits per second received: " << std::setprecision(1) << (stats.bpsReceived / 1000.0) << std::endl;
-
-	*output = stream.str();
+	return stats;
 }
 
-OMPRS_API(void,GetPlayerNetworkStats(void* player, StringView* output))
+OMPRS_API(NetworkStats, GetPlayerNetworkStats(void* player))
 {
-	std::stringstream stream;
-	NetworkStats stats = static_cast<IPlayer*>(player)->getNetworkData().network->getStatistics(static_cast<IPlayer*>(player));
-
-	stream
-		<< "Network Active: " << int(stats.isActive) << std::endl
-		<< "Network State: " << stats.connectMode << std::endl
-		<< "Messages in Send buffer: " << stats.messageSendBuffer << std::endl
-		<< "Messages sent: " << stats.messagesSent << std::endl
-		<< "Bytes sent: " << stats.totalBytesSent << std::endl
-		<< "Acks sent: " << stats.acknowlegementsSent << std::endl
-		<< "Acks in send buffer: " << stats.acknowlegementsPending << std::endl
-		<< "Messages waiting for ack: " << stats.messagesOnResendQueue << std::endl
-		<< "Messages resent: " << stats.messageResends << std::endl
-		<< "Bytes resent: " << stats.messagesTotalBytesResent << std::endl
-		<< "Packetloss: " << std::setprecision(1) << std::fixed << stats.packetloss << "%" << std::endl
-		<< "Messages received: " << stats.messagesReceived << std::endl
-		<< "Bytes received: " << stats.bytesReceived << std::endl
-		<< "Acks received: " << stats.acknowlegementsReceived << std::endl
-		<< "Duplicate acks received: " << stats.duplicateAcknowlegementsReceived << std::endl
-		<< "Inst. KBits per second: " << std::setprecision(1) << (stats.bitsPerSecond / 1000.0) << std::endl
-		<< "KBits per second sent: " << std::setprecision(1) << (stats.bpsSent / 1000.0) << std::endl
-		<< "KBits per second received: " << std::setprecision(1) << (stats.bpsReceived / 1000.0) << std::endl;
-
-	*output = stream.str();
+	return static_cast<IPlayer*>(player)->getNetworkData().network->getStatistics(static_cast<IPlayer*>(player));
 }
 
 OMPRS_API(int,GetServerTickRate())
@@ -454,65 +411,10 @@ OMPRS_API(void,LimitPlayerMarkerRadius(float markerRadius))
 	*OMPRSComponent::Get()->GetCore()->getConfig().getFloat("game.player_marker_draw_radius") = markerRadius;
 }
 
-OMPRS_API(int,NetStats_BytesReceived(void* player))
-{
-	NetworkStats stats = static_cast<IPlayer*>(player)->getNetworkData().network->getStatistics(static_cast<IPlayer*>(player));
-	return stats.bytesReceived;
-}
 
-OMPRS_API(int,NetStats_BytesSent(void* player))
+OMPRS_API(PeerNetworkData::NetworkID, NetStats_GetIpPort(void* player))
 {
-	NetworkStats stats = static_cast<IPlayer*>(player)->getNetworkData().network->getStatistics(static_cast<IPlayer*>(player));
-	return stats.totalBytesSent;
-}
-
-OMPRS_API(int, NetStats_ConnectionStatus(void* player))
-{
-	NetworkStats stats = static_cast<IPlayer*>(player)->getNetworkData().network->getStatistics(static_cast<IPlayer*>(player));
-	return stats.connectMode;
-}
-
-OMPRS_API(int,NetStats_GetConnectedTime(void* player))
-{
-	NetworkStats stats = static_cast<IPlayer*>(player)->getNetworkData().network->getStatistics(static_cast<IPlayer*>(player));
-	return stats.connectionElapsedTime;
-}
-
-OMPRS_API(void, NetStats_GetIpPort(void* player, StringView* output))
-{
-	PeerNetworkData data = static_cast<IPlayer*>(player)->getNetworkData();
-	PeerAddress::AddressString addressString;
-	if (PeerAddress::ToString(data.networkID.address, addressString))
-	{
-		Impl::String ip_port((StringView(addressString)));
-		ip_port += ":";
-		ip_port += std::to_string(data.networkID.port);
-		*output = ip_port;
-	}
-}
-
-OMPRS_API(int,NetStats_MessagesReceived(void* player))
-{
-	NetworkStats stats = static_cast<IPlayer*>(player)->getNetworkData().network->getStatistics(static_cast<IPlayer*>(player));
-	return stats.messagesReceived;
-}
-
-OMPRS_API(int,NetStats_MessagesRecvPerSecond(void* player))
-{
-	NetworkStats stats = static_cast<IPlayer*>(player)->getNetworkData().network->getStatistics(static_cast<IPlayer*>(player));
-	return stats.messagesReceivedPerSecond;
-}
-
-OMPRS_API(int, NetStats_MessagesSent(void* player))
-{
-	NetworkStats stats = static_cast<IPlayer*>(player)->getNetworkData().network->getStatistics(static_cast<IPlayer*>(player));
-	return stats.messagesSent;
-}
-
-OMPRS_API(float,NetStats_PacketLossPercent(void* player))
-{
-	NetworkStats stats = static_cast<IPlayer*>(player)->getNetworkData().network->getStatistics(static_cast<IPlayer*>(player));
-	return stats.packetloss;
+	return static_cast<IPlayer*>(player)->getNetworkData().networkID;
 }
 
 OMPRS_API(void,SendPlayerMessageToAll(void* player, StringView message))
