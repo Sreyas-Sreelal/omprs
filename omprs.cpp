@@ -21,7 +21,7 @@ StringView OMPRSComponent::componentName() const
 
 SemanticVersion OMPRSComponent::componentVersion() const
 {
-	return SemanticVersion(0, 0, 2, 0);
+	return SemanticVersion(1,0, 0, 0);
 }
 
 void OMPRSComponent::onFree(IComponent* component)
