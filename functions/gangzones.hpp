@@ -7,7 +7,22 @@ OMPRS_API(void*, GangZoneCreate(GangZonePos pos))
 	IGangZonesComponent* component = OMPRSComponent::Get()->GetGangZones();
 	if (component)
 	{
-		return component->create(pos);		
+		int id = component->reserveLegacyID();
+		if (id == INVALID_GANG_ZONE_ID)
+		{
+			return nullptr;
+		}
+
+		IGangZone* gz = component->create(pos);
+		if (gz)
+		{
+			component->setLegacyID(id, gz->getID());
+			return gz;
+		}
+		else
+		{
+			component->releaseLegacyID(id);
+		}
 	}
 	return nullptr;
 }
@@ -21,6 +36,7 @@ OMPRS_API(void,GangZoneDestroy(void* gangzone))
 		if (id)
 		{
 			pool->release(id);
+			pool->releaseLegacyID(pool->toLegacyID(id));
 		}
 	}
 }
@@ -86,7 +102,7 @@ OMPRS_API(bool,IsValidGangZoneID(int gangzoneid))
 	IGangZonesComponent* component = OMPRSComponent::Get()->GetGangZones();
 	if (component)
 	{
-		return component->get(gangzoneid) != nullptr;
+		return !!component->fromLegacyID(gangzoneid);
 	}
 	return false;
 }
@@ -142,3 +158,26 @@ OMPRS_API(void,UseGangZoneCheck(void* gangzone, bool enable))
 	}
 }
 
+OMPRS_API(int, GetGangZoneID(void* gangzone))
+{
+	IGangZonesComponent* component = OMPRSComponent::Get()->GetGangZones();
+	if (component)
+	{
+		return component->toLegacyID(static_cast<IGangZone*>(gangzone)->getID());
+	}
+	return INVALID_GANG_ZONE_ID;
+}
+
+OMPRS_API(void*, GetGangZoneFromID(int gangzoneid))
+{
+	IGangZonesComponent* component = OMPRSComponent::Get()->GetGangZones();
+	if (component)
+	{
+		int realid =  component->fromLegacyID(gangzoneid);
+		if (realid)
+		{
+			return component->get(realid);
+		}
+	}
+	return nullptr;
+}

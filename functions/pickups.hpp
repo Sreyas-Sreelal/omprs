@@ -7,7 +7,21 @@ OMPRS_API(void*,CreatePickup(int model, int type, Vector3 position, int virtualW
 	IPickupsComponent* component = OMPRSComponent::Get()->GetPickups();
 	if (component)
 	{
-		return component->create(model, type, position, virtualWorld, false);
+		int id = component->reserveLegacyID();
+		if (id == INVALID_PICKUP_ID)
+		{
+			return nullptr;
+		}
+		IPickup * pickup = component->create(model, type, position, virtualWorld, false);
+		if (pickup)
+		{
+			component->setLegacyID(id, pickup->getID());
+			return pickup;
+		}
+		else
+		{
+			component->releaseLegacyID(id);
+		}
 	}
 	return nullptr;
 }
@@ -17,7 +31,21 @@ OMPRS_API(void*,AddStaticPickup(int model, int type, Vector3 position, int virtu
 	IPickupsComponent* component = OMPRSComponent::Get()->GetPickups();
 	if (component)
 	{
-		return component->create(model, type, position, virtualWorld, true);
+		int id = component->reserveLegacyID();
+		if (id == INVALID_PICKUP_ID)
+		{
+			return nullptr;
+		}
+		IPickup* pickup = component->create(model, type, position, virtualWorld, true);
+		if (pickup)
+		{
+			component->setLegacyID(id, pickup->getID());
+			return pickup;
+		}
+		else
+		{
+			component->releaseLegacyID(id);
+		}
 	}
 	return nullptr;
 }
@@ -31,6 +59,7 @@ OMPRS_API(void,DestroyPickup(void* pickup))
 		if (id)
 		{
 			component->release(id);
+			component->releaseLegacyID(component->toLegacyID(id));
 		}
 	}
 }
@@ -112,7 +141,12 @@ OMPRS_API(void*, GetPickupFromID(int pickupid))
 	IPickupsComponent* component = OMPRSComponent::Get()->GetPickups();
 	if (component)
 	{
-		component->get(pickupid);
+		int realid = component->fromLegacyID(pickupid);
+		if (realid)
+		{
+			return component->get(pickupid);
+		}
+		
 	}
 	return nullptr;
 }
